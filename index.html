@@ -2,413 +2,218 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cliff’s Custom Creations | Custom Laser Engraving</title>
-  <meta name="description" content="Custom laser-engraved gifts made with purpose. Tumblers, leather goods, faith gifts, and personalized keepsakes." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cliff’s Custom Creations</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <!-- HEADER -->
-  <header class="topbar" id="top">
-    <div class="wrap topbar-inner">
-      <a class="brand" href="#top" aria-label="Cliff’s Custom Creations Home">
-        <span class="brand-mark" aria-hidden="true">CCC</span>
+
+  <!-- Top Nav -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#top">
+        <span class="brand-badge">CCC</span>
         <span class="brand-text">
           <strong>Cliff’s Custom Creations</strong>
-          <small>Custom Laser Engraving</small>
+          <span class="muted">Custom Laser Engraving</span>
         </span>
       </a>
 
-      <nav class="nav" aria-label="Primary navigation">
-        <a href="#bestsellers">Best Sellers</a>
+      <nav class="nav">
+        <a href="#best-sellers">Best Sellers</a>
         <a href="#how">How It Works</a>
         <a href="#faith">Faith</a>
         <a href="#gallery">Gallery</a>
-        <a class="nav-cta" href="#contact">Email to Order</a>
+        <a class="btn small" href="#contact">Email to Order</a>
       </nav>
     </div>
   </header>
 
-  <!-- HERO -->
-  <main class="hero">
-    <div class="wrap hero-grid">
+  <!-- Hero -->
+  <main id="top" class="hero">
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <div class="pill">HANDCRAFTED • FAITH-CENTERED • BUILT TO LAST</div>
+        <h1>Custom Laser Engraved Gifts Made With Purpose</h1>
+        <p class="lead">Tumblers • Leather Goods • Faith Gifts • Personalized Keepsakes</p>
 
-      <div class="hero-logo">
-        <!-- Put your full-color logo here -->
-        <img src="assets/ccc-logo.png" alt="Cliff’s Custom Creations Logo" />
-      </div>
-
-      <div class="hero-copy">
-        <p class="kicker">HANDCRAFTED • FAITH-CENTERED • BUILT TO LAST</p>
-
-        <h1>
-          Custom Laser-Engraved Gifts<br />
-          Made With Purpose
-        </h1>
-
-        <p class="lead">
-          Tumblers • Leather Goods • Faith Gifts • Personalized Keepsakes
-        </p>
-
-        <div class="hero-buttons">
-          <a class="btn primary" href="#contact">Email to Order</a>
+        <div class="hero-actions">
+          <a class="btn" href="#contact">Email to Order</a>
           <a class="btn ghost" href="#gallery">See Gallery</a>
         </div>
 
-        <div class="trust">
-          <div class="trust-item">
-            <strong>Fast replies</strong>
-            <span>Typically 1–24 hours</span>
-          </div>
-          <div class="trust-item">
-            <strong>Proof before engraving</strong>
-            <span>We confirm details first</span>
-          </div>
-          <div class="trust-item">
-            <strong>Pickup + Shipping</strong>
-            <span>Local or delivered</span>
-          </div>
+        <div class="hero-cards">
+          <div class="card"><strong>Fast replies</strong><span class="muted">Typically 1–24 hours</span></div>
+          <div class="card"><strong>Proof before engraving</strong><span class="muted">We confirm details first</span></div>
+          <div class="card"><strong>Local + shipping</strong><span class="muted">Pickup or ship</span></div>
         </div>
       </div>
 
+      <div class="hero-right">
+        <div class="hero-image">
+          <div class="hero-image-inner">
+            <div class="muted center">Your hero image can go here later.</div>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 
-  <!-- BEST SELLERS -->
-  <section id="bestsellers" class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>Best Sellers</h2>
-        <p class="sub">Tap a category — it will jump you to the email order form.</p>
-      </div>
+  <!-- Best Sellers -->
+  <section id="best-sellers" class="section">
+    <div class="container">
+      <h2>Best Sellers</h2>
+      <p class="muted">Tap a category — it jumps you to the email order form.</p>
 
-      <div class="grid cards">
-        <article class="card">
-          <div class="card-top">
-            <span class="tag">Top Seller</span>
-            <h3>Tumblers</h3>
-          </div>
-          <p>High-contrast engraving that pops on powder-coated cups.</p>
-          <button class="linklike" data-scroll-contact data-item="Tumblers">Email about Tumblers →</button>
-        </article>
+      <div class="grid-4">
+        <button class="tile" data-scroll-contact data-item="Tumblers">
+          <span class="tag">TOP SELLER</span>
+          <h3>Tumblers</h3>
+          <p class="muted">High-contrast engraving that pops on powder-coated cups.</p>
+          <span class="link">Email about Tumblers →</span>
+        </button>
 
-        <article class="card">
-          <div class="card-top">
-            <span class="tag">Gift</span>
-            <h3>Leather Keychains</h3>
-          </div>
-          <p>Rugged, personal, and perfect for names, initials, or scripture.</p>
-          <button class="linklike" data-scroll-contact data-item="Leather Keychains">Email about Keychains →</button>
-        </article>
+        <button class="tile" data-scroll-contact data-item="Leather Keychains">
+          <span class="tag">GIFT</span>
+          <h3>Leather Keychains</h3>
+          <p class="muted">Rugged, personal, and perfect for names, initials, or scripture.</p>
+          <span class="link">Email about Keychains →</span>
+        </button>
 
-        <article class="card">
-          <div class="card-top">
-            <span class="tag">Leather</span>
-            <h3>Wallets</h3>
-          </div>
-          <p>A meaningful daily carry—engraved clean and built to last.</p>
-          <button class="linklike" data-scroll-contact data-item="Wallets">Email about Wallets →</button>
-        </article>
+        <button class="tile" data-scroll-contact data-item="Wallets">
+          <span class="tag">LEATHER</span>
+          <h3>Wallets</h3>
+          <p class="muted">A meaningful daily carry — engraved clean and built to last.</p>
+          <span class="link">Email about Wallets →</span>
+        </button>
 
-        <article class="card">
-          <div class="card-top">
-            <span class="tag">Faith</span>
-            <h3>Faith Gifts</h3>
-          </div>
-          <p>Crosses, scripture, and purpose-driven designs made with care.</p>
-          <button class="linklike" data-scroll-contact data-item="Faith Gifts">Email about Faith Gifts →</button>
-        </article>
+        <button class="tile" data-scroll-contact data-item="Faith Gifts">
+          <span class="tag">FAITH</span>
+          <h3>Faith Gifts</h3>
+          <p class="muted">Crosses, scripture, and purpose-driven pieces made with care.</p>
+          <span class="link">Email about Faith Gifts →</span>
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <section id="how" class="section soft">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>How Ordering Works</h2>
-        <p class="sub">Simple, fast, and clear — so you get exactly what you want.</p>
-      </div>
-
-      <div class="grid steps">
-        <div class="step">
-          <div class="step-badge">1</div>
-          <h3>Email your idea</h3>
-          <p>Tell us the item, name/quote, and any theme or inspiration.</p>
-        </div>
-
-        <div class="step">
-          <div class="step-badge">2</div>
-          <h3>We confirm details</h3>
-          <p>We’ll verify sizing and send a proof/mockup when needed.</p>
-        </div>
-
-        <div class="step">
-          <div class="step-badge">3</div>
-          <h3>We engrave &amp; deliver</h3>
-          <p>Local pickup or shipping — crafted with precision and care.</p>
-        </div>
+  <!-- How it works -->
+  <section id="how" class="section alt">
+    <div class="container">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step"><span class="num">1</span><div><strong>Message what you want</strong><p class="muted">Tell us the item + wording + any images.</p></div></div>
+        <div class="step"><span class="num">2</span><div><strong>We send a proof</strong><p class="muted">You approve it before engraving.</p></div></div>
+        <div class="step"><span class="num">3</span><div><strong>We engrave + deliver</strong><p class="muted">Pickup or ship — your call.</p></div></div>
       </div>
     </div>
   </section>
 
-  <!-- FAITH -->
+  <!-- Faith -->
   <section id="faith" class="section">
-    <div class="wrap">
-      <div class="faith-card">
-        <div class="faith-mark" aria-hidden="true">✝</div>
-        <div>
-          <h2>God at the Center</h2>
-          <p class="faith-text">
-            Cliff’s Custom Creations is built on faith, family, and craftsmanship —
-            creating gifts that carry meaning.
-          </p>
-          <p class="verse">
-            “Whatever you do, work at it with all your heart…” — Colossians 3:23
-          </p>
+    <div class="container">
+      <h2>Faith at the Center</h2>
+      <p class="muted">This business is built on purpose, integrity, and serving people well.</p>
+      <div class="quote">
+        <p>“Whatever you do, work at it with all your heart, as working for the Lord…”</p>
+        <span class="muted">— Colossians 3:23</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery" class="section alt">
+    <div class="container">
+      <h2>Gallery</h2>
+      <p class="muted">
+        Add new photos by dropping them into your repo folders:
+        <code>assets/Tumblers</code> and <code>assets/Coasters</code>, then Commit + Push.
+      </p>
+
+      <div class="gallery-tabs">
+        <button class="tab active" data-tab="tumblers">Tumblers</button>
+        <button class="tab" data-tab="coasters">Coasters</button>
+      </div>
+
+      <div class="gallery-panel show" id="panel-tumblers">
+        <div class="gallery-grid" id="gallery-tumblers" aria-live="polite">
+          <div class="muted">Loading tumbler images…</div>
+        </div>
+      </div>
+
+      <div class="gallery-panel" id="panel-coasters">
+        <div class="gallery-grid" id="gallery-coasters" aria-live="polite">
+          <div class="muted">Loading coaster images…</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- GALLERY -->
-  <section id="gallery" class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>Gallery</h2>
-        <p class="sub">Choose a category, then click any photo to view it larger.</p>
-      </div>
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <div class="container">
+      <h2>Email to Order</h2>
+      <p class="muted">Fill out the form and we’ll get back to you quickly.</p>
 
-      <div class="gallery-tabs" aria-label="Gallery categories">
-        <a class="gtab" href="#gallery-coasters">Coasters</a>
-        <a class="gtab" href="#gallery-keychains">Leather Keychains</a>
-        <a class="gtab" href="#gallery-tumblers">Tumblers</a>
-        <a class="gtab" href="#gallery-wallets">Wallets</a>
-        <a class="gtab" href="#gallery-wood">Wood Works</a>
-      </div>
+      <!-- IMPORTANT: Netlify form -->
+      <form id="orderForm" class="form"
+            name="order"
+            method="POST"
+            data-netlify="true">
+        <input type="hidden" name="form-name" value="order" />
 
-      <!-- COASTERS -->
-      <div class="gallery-block" id="gallery-coasters">
-        <div class="gallery-head">
-          <h3 class="gallery-title">Coasters</h3>
-          <a class="backtop" href="#gallery">Back to Categories ↑</a>
-        </div>
-        <div class="gallery-grid">
-          <button class="gimg" data-full="assets/Coasters/72-TA.jpg"><img src="assets/Coasters/72-TA.jpg" alt="Coasters 72-TA"></button>
-          <button class="gimg" data-full="assets/Coasters/89-TA.jpg"><img src="assets/Coasters/89-TA.jpg" alt="Coasters 89-TA"></button>
-          <button class="gimg" data-full="assets/Coasters/Faith-1.jpg"><img src="assets/Coasters/Faith-1.jpg" alt="Coasters Faith 1"></button>
-          <button class="gimg" data-full="assets/Coasters/Faith-2.jpg"><img src="assets/Coasters/Faith-2.jpg" alt="Coasters Faith 2"></button>
-          <button class="gimg" data-full="assets/Coasters/FHS-1.jpg"><img src="assets/Coasters/FHS-1.jpg" alt="Coasters FHS 1"></button>
-          <button class="gimg" data-full="assets/Coasters/Freedome-set.jpg"><img src="assets/Coasters/Freedome-set.jpg" alt="Coasters Freedome set"></button>
-          <button class="gimg" data-full="assets/Coasters/LM-1.jpg"><img src="assets/Coasters/LM-1.jpg" alt="Coasters LM 1"></button>
-          <button class="gimg" data-full="assets/Coasters/LM-2.jpg"><img src="assets/Coasters/LM-2.jpg" alt="Coasters LM 2"></button>
-          <button class="gimg" data-full="assets/Coasters/LM-3.jpg"><img src="assets/Coasters/LM-3.jpg" alt="Coasters LM 3"></button>
-          <button class="gimg" data-full="assets/Coasters/LM-4.jpg"><img src="assets/Coasters/LM-4.jpg" alt="Coasters LM 4"></button>
-          <button class="gimg" data-full="assets/Coasters/riverside-set.jpg"><img src="assets/Coasters/riverside-set.jpg" alt="Coasters Riverside set"></button>
-          <button class="gimg" data-full="assets/Coasters/RS-1.jpg"><img src="assets/Coasters/RS-1.jpg" alt="Coasters RS 1"></button>
-          <button class="gimg" data-full="assets/Coasters/RS-2.jpg"><img src="assets/Coasters/RS-2.jpg" alt="Coasters RS 2"></button>
-          <button class="gimg" data-full="assets/Coasters/RS-3.jpg"><img src="assets/Coasters/RS-3.jpg" alt="Coasters RS 3"></button>
-          <button class="gimg" data-full="assets/Coasters/RS-4.jpg"><img src="assets/Coasters/RS-4.jpg" alt="Coasters RS 4"></button>
-          <button class="gimg" data-full="assets/Coasters/WF-1.jpg"><img src="assets/Coasters/WF-1.jpg" alt="Coasters WF 1"></button>
-          <button class="gimg" data-full="assets/Coasters/WF-2.jpg"><img src="assets/Coasters/WF-2.jpg" alt="Coasters WF 2"></button>
-          <button class="gimg" data-full="assets/Coasters/WF-3.jpg"><img src="assets/Coasters/WF-3.jpg" alt="Coasters WF 3"></button>
-          <button class="gimg" data-full="assets/Coasters/WF-4.jpg"><img src="assets/Coasters/WF-4.jpg" alt="Coasters WF 4"></button>
-          <button class="gimg" data-full="assets/Coasters/WF-5.jpg"><img src="assets/Coasters/WF-5.jpg" alt="Coasters WF 5"></button>
-          <button class="gimg" data-full="assets/Coasters/Xmas-set-1.jpg"><img src="assets/Coasters/Xmas-set-1.jpg" alt="Coasters Xmas set 1"></button>
-        </div>
-      </div>
-
-      <!-- LEATHER KEYCHAINS -->
-      <div class="gallery-block" id="gallery-keychains">
-        <div class="gallery-head">
-          <h3 class="gallery-title">Leather Keychains</h3>
-          <a class="backtop" href="#gallery">Back to Categories ↑</a>
-        </div>
-        <div class="gallery-grid">
-          <button class="gimg" data-full="assets/Leather%20keychains/faith-1.jpg"><img src="assets/Leather%20keychains/faith-1.jpg" alt="Leather keychains faith 1"></button>
-          <button class="gimg" data-full="assets/Leather%20keychains/faith-2.jpg"><img src="assets/Leather%20keychains/faith-2.jpg" alt="Leather keychains faith 2"></button>
-          <button class="gimg" data-full="assets/Leather%20keychains/favorvers-1.jpg"><img src="assets/Leather%20keychains/favorvers-1.jpg" alt="Leather keychains favorvers 1"></button>
-          <button class="gimg" data-full="assets/Leather%20keychains/favorvers-2.jpg"><img src="assets/Leather%20keychains/favorvers-2.jpg" alt="Leather keychains favorvers 2"></button>
-          <button class="gimg" data-full="assets/Leather%20keychains/hisandhers-1.jpg"><img src="assets/Leather%20keychains/hisandhers-1.jpg" alt="Leather keychains his and hers 1"></button>
-          <button class="gimg" data-full="assets/Leather%20keychains/iloveyou-1.jpg"><img src="assets/Leather%20keychains/iloveyou-1.jpg" alt="Leather keychains i love you 1"></button>
-          <button class="gimg" data-full="assets/Leather%20keychains/keychain-1.jpg"><img src="assets/Leather%20keychains/keychain-1.jpg" alt="Leather keychains keychain 1"></button>
-          <button class="gimg" data-full="assets/Leather%20keychains/lastnames-1.jpg"><img src="assets/Leather%20keychains/lastnames-1.jpg" alt="Leather keychains lastnames 1"></button>
-          <button class="gimg" data-full="assets/Leather%20keychains/sheisstrong-1.jpg"><img src="assets/Leather%20keychains/sheisstrong-1.jpg" alt="Leather keychains she is strong 1"></button>
-          <button class="gimg" data-full="assets/Leather%20keychains/teamwork-1.jpg"><img src="assets/Leather%20keychains/teamwork-1.jpg" alt="Leather keychains teamwork 1"></button>
-        </div>
-      </div>
-
-      <!-- TUMBLERS -->
-      <div class="gallery-block" id="gallery-tumblers">
-        <div class="gallery-head">
-          <h3 class="gallery-title">Tumblers</h3>
-          <a class="backtop" href="#gallery">Back to Categories ↑</a>
-        </div>
-        <div class="gallery-grid">
-          <button class="gimg" data-full="assets/Tumblers/egale-1.jpg"><img src="assets/Tumblers/egale-1.jpg" alt="Tumbler egale 1"></button>
-          <button class="gimg" data-full="assets/Tumblers/happybirthday-1.jpg"><img src="assets/Tumblers/happybirthday-1.jpg" alt="Tumbler happy birthday 1"></button>
-          <button class="gimg" data-full="assets/Tumblers/iamnotperfect-1.jpg"><img src="assets/Tumblers/iamnotperfect-1.jpg" alt="Tumbler i am not perfect 1"></button>
-          <button class="gimg" data-full="assets/Tumblers/IMG_20251227_115207751_HDR_AE.jpg"><img src="assets/Tumblers/IMG_20251227_115207751_HDR_AE.jpg" alt="Tumbler photo"></button>
-          <button class="gimg" data-full="assets/Tumblers/love-1.jpg"><img src="assets/Tumblers/love-1.jpg" alt="Tumbler love 1"></button>
-          <button class="gimg" data-full="assets/Tumblers/love-2.jpg"><img src="assets/Tumblers/love-2.jpg" alt="Tumbler love 2"></button>
-          <button class="gimg" data-full="assets/Tumblers/skatebording-1.jpg"><img src="assets/Tumblers/skatebording-1.jpg" alt="Tumbler skateboarding 1"></button>
-          <button class="gimg" data-full="assets/Tumblers/texastech-1.jpg"><img src="assets/Tumblers/texastech-1.jpg" alt="Tumbler texas tech 1"></button>
-          <button class="gimg" data-full="assets/Tumblers/tumbler-1.png"><img src="assets/Tumblers/tumbler-1.png" alt="Tumbler 1"></button>
-          <button class="gimg" data-full="assets/Tumblers/tumbler-2.png"><img src="assets/Tumblers/tumbler-2.png" alt="Tumbler 2"></button>
-          <button class="gimg" data-full="assets/Tumblers/werstling-1.jpg"><img src="assets/Tumblers/werstling-1.jpg" alt="Tumbler wrestling 1"></button>
-          <button class="gimg" data-full="assets/Tumblers/wethepeople-1.jpg"><img src="assets/Tumblers/wethepeople-1.jpg" alt="Tumbler we the people 1"></button>
-        </div>
-      </div>
-
-      <!-- WALLETS (folder is named "walets") -->
-      <div class="gallery-block" id="gallery-wallets">
-        <div class="gallery-head">
-          <h3 class="gallery-title">Wallets</h3>
-          <a class="backtop" href="#gallery">Back to Categories ↑</a>
-        </div>
-        <div class="gallery-grid">
-          <button class="gimg" data-full="assets/walets/acualhandwriting.jpg"><img src="assets/walets/acualhandwriting.jpg" alt="Wallet actual handwriting"></button>
-          <button class="gimg" data-full="assets/walets/daughterandfather-1.jpg"><img src="assets/walets/daughterandfather-1.jpg" alt="Wallet daughter and father"></button>
-        </div>
-      </div>
-
-      <!-- WOOD WORKS -->
-      <div class="gallery-block" id="gallery-wood">
-        <div class="gallery-head">
-          <h3 class="gallery-title">Wood Works</h3>
-          <a class="backtop" href="#gallery">Back to Categories ↑</a>
-        </div>
-        <div class="gallery-grid">
-          <button class="gimg" data-full="assets/wood%20works/baseballgame-1.jpg"><img src="assets/wood%20works/baseballgame-1.jpg" alt="Wood works baseball game 1"></button>
-          <button class="gimg" data-full="assets/wood%20works/baseballgame-2.jpg"><img src="assets/wood%20works/baseballgame-2.jpg" alt="Wood works baseball game 2"></button>
-          <button class="gimg" data-full="assets/wood%20works/nameplates.jpg"><img src="assets/wood%20works/nameplates.jpg" alt="Wood works nameplates"></button>
-
-          <button class="gimg" data-full="assets/wood%20works/pet%20(1).jpg"><img src="assets/wood%20works/pet%20(1).jpg" alt="Wood works pet 1"></button>
-          <button class="gimg" data-full="assets/wood%20works/pet%20(2).jpg"><img src="assets/wood%20works/pet%20(2).jpg" alt="Wood works pet 2"></button>
-          <button class="gimg" data-full="assets/wood%20works/pet%20(3).jpg"><img src="assets/wood%20works/pet%20(3).jpg" alt="Wood works pet 3"></button>
-          <button class="gimg" data-full="assets/wood%20works/pet%20(4).jpg"><img src="assets/wood%20works/pet%20(4).jpg" alt="Wood works pet 4"></button>
-          <button class="gimg" data-full="assets/wood%20works/pet%20(5).jpg"><img src="assets/wood%20works/pet%20(5).jpg" alt="Wood works pet 5"></button>
-          <button class="gimg" data-full="assets/wood%20works/pet%20(6).jpg"><img src="assets/wood%20works/pet%20(6).jpg" alt="Wood works pet 6"></button>
-          <button class="gimg" data-full="assets/wood%20works/pet%20(7).jpg"><img src="assets/wood%20works/pet%20(7).jpg" alt="Wood works pet 7"></button>
-          <button class="gimg" data-full="assets/wood%20works/pet%20(8).jpg"><img src="assets/wood%20works/pet%20(8).jpg" alt="Wood works pet 8"></button>
-          <button class="gimg" data-full="assets/wood%20works/pet%20(9).jpg"><img src="assets/wood%20works/pet%20(9).jpg" alt="Wood works pet 9"></button>
-          <button class="gimg" data-full="assets/wood%20works/pet%20(10).jpg"><img src="assets/wood%20works/pet%20(10).jpg" alt="Wood works pet 10"></button>
-          <button class="gimg" data-full="assets/wood%20works/pet%20(11).jpg"><img src="assets/wood%20works/pet%20(11).jpg" alt="Wood works pet 11"></button>
-
-          <button class="gimg" data-full="assets/wood%20works/woodenplaques%20(1).jpg"><img src="assets/wood%20works/woodenplaques%20(1).jpg" alt="Wood works wooden plaques 1"></button>
-          <button class="gimg" data-full="assets/wood%20works/woodenplaques%20(2).jpg"><img src="assets/wood%20works/woodenplaques%20(2).jpg" alt="Wood works wooden plaques 2"></button>
-          <button class="gimg" data-full="assets/wood%20works/woodenplaques%20(3).jpg"><img src="assets/wood%20works/woodenplaques%20(3).jpg" alt="Wood works wooden plaques 3"></button>
-
-          <button class="gimg" data-full="assets/wood%20works/xmas-1%20(1).jpg"><img src="assets/wood%20works/xmas-1%20(1).jpg" alt="Wood works xmas 1"></button>
-          <button class="gimg" data-full="assets/wood%20works/xmas-1%20(2).jpg"><img src="assets/wood%20works/xmas-1%20(2).jpg" alt="Wood works xmas 2"></button>
-          <button class="gimg" data-full="assets/wood%20works/xmas-1%20(3).jpg"><img src="assets/wood%20works/xmas-1%20(3).jpg" alt="Wood works xmas 3"></button>
-          <button class="gimg" data-full="assets/wood%20works/xmas-1%20(4).jpg"><img src="assets/wood%20works/xmas-1%20(4).jpg" alt="Wood works xmas 4"></button>
-          <button class="gimg" data-full="assets/wood%20works/xmas-1%20(5).jpg"><img src="assets/wood%20works/xmas-1%20(5).jpg" alt="Wood works xmas 5"></button>
-        </div>
-      </div>
-    </div>
-
-    <!-- LIGHTBOX -->
-    <div class="lightbox" id="lightbox" aria-hidden="true">
-      <div class="lightbox-inner" role="dialog" aria-label="Image viewer">
-        <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
-        <img id="lightboxImg" alt="">
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT / ORDER FORM (NETLIFY - NO SUCCESS PAGE NEEDED) -->
-  <section id="contact" class="section soft">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>Email to Order</h2>
-        <p class="sub">Fill this out and it goes straight to our inbox.</p>
-      </div>
-
-      <!-- Thank you message (hidden until submitted) -->
-      <div class="thanks card" id="thanks" hidden>
-        <h3 style="margin-top:0;">✅ Message sent!</h3>
-        <p style="margin:0;color:var(--muted);">
-          Thanks for reaching out. We’ll reply as soon as possible (typically 1–24 hours).
-        </p>
-      </div>
-
-      <div class="contact-grid">
-        <form class="form"
-              id="orderForm"
-              name="order"
-              method="POST"
-              data-netlify="true"
-              data-netlify-honeypot="bot-field"
-              enctype="multipart/form-data">
-
-          <input type="hidden" name="form-name" value="order" />
-          <p style="display:none;">
-            <label>Don’t fill this out: <input name="bot-field" /></label>
-          </p>
-
+        <div class="form-row">
           <label>
             Your name
-            <input name="name" type="text" required />
+            <input type="text" name="name" required />
           </label>
 
           <label>
-            Your email
-            <input name="email" type="email" required />
+            Email
+            <input type="email" name="email" required />
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>
+            Item / Category
+            <input id="itemField" type="text" name="item" placeholder="Tumblers / Coasters / Keychains / etc." />
           </label>
 
           <label>
-            What item are you ordering?
-            <input id="itemField" name="item" type="text" placeholder="Tumbler, keychain, wallet, etc." required />
+            Deadline (optional)
+            <input type="text" name="deadline" placeholder="Example: Feb 10" />
           </label>
+        </div>
 
-          <label>
-            Engraving details
-            <textarea name="details" rows="6" placeholder="Names, quote, theme, deadline, notes…" required></textarea>
-          </label>
+        <label>
+          Details (text to engrave, colors, etc.)
+          <textarea name="details" rows="5" required></textarea>
+        </label>
 
-          <label>
-            Upload a photo or logo (optional)
-            <input name="attachment" type="file" accept="image/*" />
-          </label>
+        <button class="btn" type="submit">Send Order Request</button>
+      </form>
 
-          <div class="form-actions">
-            <button class="btn primary" type="submit">Send</button>
-            <button class="btn ghost" type="reset">Clear</button>
-          </div>
-
-          <p class="tiny">Typical reply time: 1–24 hours</p>
-        </form>
-
-        <aside class="contact-box">
-          <h3>Direct email</h3>
-          <p style="font-weight:1000;margin:6px 0 14px;">
-            <a class="footlink" href="mailto:cliffscustomcreations25@gmail.com">
-              cliffscustomcreations25@gmail.com
-            </a>
-          </p>
-
-          <div class="divider"></div>
-
-          <h3>What to include</h3>
-          <ul class="mini">
-            <li>Item type & size</li>
-            <li>Exact spelling for names</li>
-            <li>Theme or style</li>
-            <li>Date needed</li>
-          </ul>
-        </aside>
+      <div id="thanks" class="thanks" hidden>
+        ✅ Got it! Your request was sent. We’ll reply soon.
       </div>
     </div>
   </section>
 
+  <!-- Footer -->
   <footer class="footer">
-    <div class="wrap foot">
-      <p>© <span id="year"></span> Cliff’s Custom Creations</p>
-      <p class="foot-right"><a class="footlink" href="#top">Back to top ↑</a></p>
+    <div class="container footer-inner">
+      <span>© <span id="year"></span> Cliff’s Custom Creations</span>
+      <span class="muted">Built with care.</span>
     </div>
   </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+    <img id="lightboxImg" alt="" />
+  </div>
 
   <script src="script.js"></script>
 </body>
