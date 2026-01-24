@@ -2,226 +2,200 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cliff’s Custom Creations</title>
-  <meta name="description" content="Custom laser engraved gifts — tumblers, coasters, leather goods, faith gifts, and more." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cliff's Custom Creations | Custom Laser Engraving</title>
+  <meta name="description" content="Custom laser engraved gifts: tumblers, leather goods, coasters, wallets, wood works, and faith gifts." />
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <!-- Top Nav -->
   <header class="topbar">
-    <div class="wrap topbar__inner">
-      <a class="brand" href="#top" aria-label="Cliff's Custom Creations home">
-        <img src="assets/ccc-logo.png" alt="Cliff’s Custom Creations logo" class="brand__logo" />
-        <div class="brand__text">
-          <div class="brand__name">Cliff’s Custom Creations</div>
-          <div class="brand__tag">Custom Laser Engraving</div>
+    <div class="container topbar-inner">
+      <a class="brand" href="#top">
+        <img src="assets/ccc-logo.png" alt="Cliff's Custom Creations Logo" class="brand-logo" />
+        <div class="brand-text">
+          <div class="brand-name">Cliff's Custom Creations</div>
+          <div class="brand-sub">Custom Laser Engraving</div>
         </div>
       </a>
 
       <nav class="nav">
-        <a href="#best-sellers">Best Sellers</a>
-        <a href="#how">How It Works</a>
-        <a href="#faith">Faith</a>
+        <a href="#best">Best Sellers</a>
         <a href="#gallery">Gallery</a>
+        <a href="#contact" class="btn btn-gold">Email to Order</a>
       </nav>
-
-      <a class="btn btn--primary" href="#contact">Email to Order</a>
     </div>
   </header>
 
   <main id="top">
-    <!-- Hero -->
+    <!-- HERO -->
     <section class="hero">
-      <div class="wrap hero__grid">
-        <div class="hero__copy">
+      <div class="container hero-grid">
+        <div class="hero-left">
           <div class="pill">HANDCRAFTED • FAITH-CENTERED • BUILT TO LAST</div>
           <h1>Custom Laser Engraved Gifts<br/>Made With Purpose</h1>
-          <p>
-            Tumblers • Leather Goods • Coasters • Wood Works • Personalized Gifts
+          <p class="muted">
+            Tumblers • Leather Goods • Coasters • Wallets • Wood Works • Personalized Gifts
           </p>
 
-          <div class="hero__cta">
-            <button class="btn btn--primary" data-scroll-contact data-item="Custom Order">
-              Email to Order
-            </button>
-            <a class="btn btn--ghost" href="#gallery">See Gallery</a>
+          <div class="hero-actions">
+            <a class="btn btn-gold" href="#contact">Email to Order</a>
+            <a class="btn btn-outline" href="#gallery">See Gallery</a>
           </div>
 
-          <div class="hero__badges">
-            <div class="badge">Fast replies<br><span>Typically 1–24 hours</span></div>
-            <div class="badge">Proof before engraving<br><span>We confirm details first</span></div>
+          <div class="hero-badges">
+            <div class="badge">
+              <div class="badge-title">Fast replies</div>
+              <div class="badge-text">Typically 1–24 hours</div>
+            </div>
+            <div class="badge">
+              <div class="badge-title">Proof first</div>
+              <div class="badge-text">We confirm details before engraving</div>
+            </div>
+            <div class="badge">
+              <div class="badge-title">Custom</div>
+              <div class="badge-text">Names, logos, scriptures, and more</div>
+            </div>
           </div>
         </div>
 
-        <div class="hero__card">
-          <div class="hero__cardInner">
-            <div class="hero__cardTitle">Featured</div>
-            <div class="hero__cardSub">Your featured image can go here later</div>
-            <div class="hero__cardTip">Tip: add a photo at <code>assets/featured.jpg</code> and it will appear.</div>
-            <img id="featuredImg" class="hero__img" src="" alt="" />
+        <div class="hero-right">
+          <div class="hero-card">
+            <div class="hero-card-title">Featured</div>
+            <div class="hero-card-sub muted">New items & favorites will rotate here later.</div>
+            <div class="hero-preview" id="heroPreview">
+              <div class="hero-preview-empty">Your hero image will show here when loaded.</div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Best Sellers -->
-    <section class="section" id="best-sellers">
-      <div class="wrap">
+    <!-- BEST SELLERS -->
+    <section id="best" class="section">
+      <div class="container">
         <h2>Best Sellers</h2>
         <p class="muted">Tap a category — it will jump you to the email order form.</p>
 
         <div class="cards">
           <button class="card" data-scroll-contact data-item="Tumblers">
-            <div class="chip">TOP SELLER</div>
+            <div class="tag">TOP SELLER</div>
             <h3>Tumblers</h3>
-            <p>High-contrast engraving that pops on powder-coated cups.</p>
-            <div class="link">Email about Tumblers →</div>
+            <p class="muted">High-contrast engraving that pops on powder-coated cups.</p>
+            <span class="linkish">Email about Tumblers →</span>
           </button>
 
           <button class="card" data-scroll-contact data-item="Leather Keychains">
-            <div class="chip">GIFT</div>
+            <div class="tag">GIFT</div>
             <h3>Leather Keychains</h3>
-            <p>Rugged, personal, and perfect for names, initials, or scripture.</p>
-            <div class="link">Email about Keychains →</div>
+            <p class="muted">Rugged, personal, and perfect for names, initials, or scripture.</p>
+            <span class="linkish">Email about Keychains →</span>
           </button>
 
           <button class="card" data-scroll-contact data-item="Wallets">
-            <div class="chip">LEATHER</div>
+            <div class="tag">LEATHER</div>
             <h3>Wallets</h3>
-            <p>A meaningful daily carry — engraved clean and built to last.</p>
-            <div class="link">Email about Wallets →</div>
+            <p class="muted">A meaningful daily carry — engraved clean and built to last.</p>
+            <span class="linkish">Email about Wallets →</span>
           </button>
 
           <button class="card" data-scroll-contact data-item="Coasters">
-            <div class="chip">HOME</div>
+            <div class="tag">HOME</div>
             <h3>Coasters</h3>
-            <p>Slate, stone, wood — great for sets, gifts, and local landmarks.</p>
-            <div class="link">Email about Coasters →</div>
+            <p class="muted">Slate & wood styles — custom sets for family, teams, or gifts.</p>
+            <span class="linkish">Email about Coasters →</span>
           </button>
 
           <button class="card" data-scroll-contact data-item="Wood Works">
-            <div class="chip">CUSTOM</div>
+            <div class="tag">WOOD</div>
             <h3>Wood Works</h3>
-            <p>Plaques, nameplates, ornaments, and custom pieces.</p>
-            <div class="link">Email about Wood Works →</div>
+            <p class="muted">Plaques, signs, pet memorials, and custom pieces.</p>
+            <span class="linkish">Email about Wood Works →</span>
           </button>
         </div>
       </div>
     </section>
 
-    <!-- How it works -->
-    <section class="section section--alt" id="how">
-      <div class="wrap">
-        <h2>How It Works</h2>
-        <div class="steps">
-          <div class="step"><div class="num">1</div><h3>Message what you want</h3><p>Item type, text, and any photos you want included.</p></div>
-          <div class="step"><div class="num">2</div><h3>We confirm details</h3><p>Font, layout, and engraving style — we’ll make it clean.</p></div>
-          <div class="step"><div class="num">3</div><h3>Proof before engraving</h3><p>You approve before we burn it in.</p></div>
-          <div class="step"><div class="num">4</div><h3>Engrave + deliver</h3><p>Fast turnaround and quality finish.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Faith -->
-    <section class="section" id="faith">
-      <div class="wrap">
-        <h2>Faith</h2>
-        <p class="muted">
-          “Whatever you do, work at it with all your heart…” — Colossians 3:23
-        </p>
-      </div>
-    </section>
-
-    <!-- Gallery -->
-    <section class="section section--alt" id="gallery">
-      <div class="wrap">
-        <div class="galleryHeader">
+    <!-- GALLERY -->
+    <section id="gallery" class="section section-soft">
+      <div class="container">
+        <div class="gallery-head">
           <div>
             <h2>Gallery</h2>
-            <p class="muted">Loads from <code>assets/manifest.json</code>. Add images + update manifest + push.</p>
+            <p class="muted">Click any photo to enlarge.</p>
           </div>
 
-          <div class="filters" role="tablist" aria-label="Gallery categories">
-            <button class="filter is-active" data-category="tumblers">Tumblers</button>
-            <button class="filter" data-category="coasters">Coasters</button>
-            <button class="filter" data-category="leather-keychains">Leather Keychains</button>
-            <button class="filter" data-category="wallets">Wallets</button>
-            <button class="filter" data-category="wood-works">Wood Works</button>
+          <div class="filters">
+            <button class="chip active" data-filter="all">All</button>
+            <button class="chip" data-filter="Tumblers">Tumblers</button>
+            <button class="chip" data-filter="Coasters">Coasters</button>
+            <button class="chip" data-filter="Leather keychains">Leather Keychains</button>
+            <button class="chip" data-filter="wallets">Wallets</button>
+            <button class="chip" data-filter="wood works">Wood Works</button>
           </div>
         </div>
 
-        <div id="galleryGrid" class="grid" aria-live="polite"></div>
-
-        <div id="galleryEmpty" class="empty" hidden>
-          Nothing found for this category yet. Add files to the folder and list them in <code>assets/manifest.json</code>.
+        <div id="galleryGrid" class="gallery-grid">
+          <div class="muted">Loading images…</div>
         </div>
       </div>
     </section>
 
-    <!-- Contact -->
-    <section class="section" id="contact">
-      <div class="wrap">
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container">
         <h2>Email to Order</h2>
-        <p class="muted">This sends through Netlify Forms (no demo links). You’ll see submissions in Netlify → Forms.</p>
+        <p class="muted">Tell me what you want engraved and I’ll reply with a proof + price.</p>
 
-        <form id="orderForm"
-              name="custom-order"
-              method="POST"
-              data-netlify="true"
-              netlify-honeypot="bot-field"
-              class="form">
+        <form id="orderForm" name="custom-order" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="form">
           <input type="hidden" name="form-name" value="custom-order" />
           <p class="hidden">
             <label>Don’t fill this out: <input name="bot-field" /></label>
           </p>
 
-          <div class="formRow">
-            <label>What are you ordering?
-              <input id="itemField" name="item" type="text" placeholder="Tumblers, Coasters, Wallets..." required />
+          <div class="form-grid">
+            <label>
+              Your Name
+              <input name="name" required />
             </label>
 
-            <label>Your name
-              <input name="name" type="text" placeholder="Your name" required />
+            <label>
+              Email
+              <input name="email" type="email" required />
+            </label>
+
+            <label class="full">
+              Item / Category
+              <input id="itemField" name="item" placeholder="Tumblers, Coasters, Wallets…" />
+            </label>
+
+            <label class="full">
+              Details (names, text, size, etc.)
+              <textarea name="details" rows="5" required></textarea>
             </label>
           </div>
 
-          <div class="formRow">
-            <label>Email
-              <input name="email" type="email" placeholder="you@email.com" required />
-            </label>
-
-            <label>Phone (optional)
-              <input name="phone" type="tel" placeholder="(555) 555-5555" />
-            </label>
-          </div>
-
-          <label>Details (text, colors, size, anything important)
-            <textarea name="details" rows="6" placeholder="Tell me what you want engraved..." required></textarea>
-          </label>
-
-          <button class="btn btn--primary" type="submit">Send Order Request</button>
+          <button class="btn btn-gold" type="submit">Send Request</button>
         </form>
 
         <div id="thanks" class="thanks" hidden>
-          ✅ Got it! Your message was sent. I’ll reply as soon as possible.
+          ✅ Got it! Your request was sent. I’ll reply as soon as I can.
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Lightbox -->
+  <!-- LIGHTBOX -->
   <div id="lightbox" class="lightbox" aria-hidden="true">
-    <button id="lightboxClose" class="lightbox__close" aria-label="Close">✕</button>
+    <button id="lightboxClose" class="lightbox-close" aria-label="Close">×</button>
     <img id="lightboxImg" alt="" />
-    <div id="lightboxCap" class="lightbox__cap"></div>
+    <div id="lightboxCap" class="lightbox-cap"></div>
   </div>
 
   <footer class="footer">
-    <div class="wrap footer__inner">
+    <div class="container footer-inner">
       <div>© <span id="year"></span> Cliff’s Custom Creations</div>
-      <div class="muted">Custom Laser Engraving • Oregon</div>
+      <div class="muted">Custom laser engraving • Made with purpose</div>
     </div>
   </footer>
 

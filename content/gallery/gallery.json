@@ -1,0 +1,11 @@
+[
+  { "category": "Tumblers", "file": "assets/Tumblers/god-is-right.png", "title": "God Is Right" },
+  { "category": "Tumblers", "file": "assets/Tumblers/jesus-is-the-way.png", "title": "Jesus Is The Way" },
+
+  { "category": "Coasters", "file": "assets/Coasters/Faith-1.jpg", "title": "Faith Coaster" },
+  { "category": "Leather keychains", "file": "assets/Leather keychains/faith-1.jpg", "title": "Faith Keychain" },
+
+  { "category": "wallets", "file": "assets/wallets/daughterandfather-1.jpg", "title": "Wallet - Daughter & Father" },
+
+  { "category": "wood works", "file": "assets/wood works/nameplates.jpg", "title": "Nameplates" }
+]

@@ -2,7 +2,7 @@
 const year = document.getElementById("year");
 if (year) year.textContent = new Date().getFullYear();
 
-/* Best Seller buttons scroll to contact + prefill item */
+/* Best Seller buttons scroll to email form and prefill item */
 const itemField = document.getElementById("itemField");
 document.querySelectorAll("[data-scroll-contact]").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -12,46 +12,36 @@ document.querySelectorAll("[data-scroll-contact]").forEach(btn => {
   });
 });
 
-/* Featured image (optional) */
+/* Lightbox */
 (() => {
-  const img = document.getElementById("featuredImg");
-  if (!img) return;
-  const test = new Image();
-  test.onload = () => {
-    img.src = "assets/featured.jpg";
-    img.alt = "Featured work by Cliff’s Custom Creations";
-    img.style.display = "block";
-  };
-  test.onerror = () => { /* ignore */ };
-  test.src = "assets/featured.jpg";
+  const lb = document.getElementById("lightbox");
+  const lbImg = document.getElementById("lightboxImg");
+  const lbClose = document.getElementById("lightboxClose");
+  const lbCap = document.getElementById("lightboxCap");
+  if (!lb || !lbImg || !lbClose) return;
+
+  function openLightbox(src, cap=""){
+    lbImg.src = src;
+    lb.classList.add("show");
+    lb.setAttribute("aria-hidden", "false");
+    if (lbCap) lbCap.textContent = cap;
+  }
+  function closeLightbox(){
+    lb.classList.remove("show");
+    lb.setAttribute("aria-hidden", "true");
+    lbImg.src = "";
+    if (lbCap) lbCap.textContent = "";
+  }
+
+  lbClose.addEventListener("click", closeLightbox);
+  lb.addEventListener("click", (e) => { if (e.target === lb) closeLightbox(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
+
+  // expose for gallery clicks
+  window.__openCCC = openLightbox;
 })();
 
-/* Lightbox */
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightboxImg");
-const lightboxClose = document.getElementById("lightboxClose");
-const lightboxCap = document.getElementById("lightboxCap");
-
-function openLightbox(src, caption = "") {
-  if (!lightbox || !lightboxImg) return;
-  lightboxImg.src = src;
-  lightboxImg.alt = caption || "Gallery image";
-  if (lightboxCap) lightboxCap.textContent = caption || "";
-  lightbox.classList.add("show");
-  lightbox.setAttribute("aria-hidden", "false");
-}
-function closeLightbox() {
-  if (!lightbox || !lightboxImg) return;
-  lightbox.classList.remove("show");
-  lightbox.setAttribute("aria-hidden", "true");
-  lightboxImg.src = "";
-  if (lightboxCap) lightboxCap.textContent = "";
-}
-lightboxClose?.addEventListener("click", closeLightbox);
-lightbox?.addEventListener("click", (e) => { if (e.target === lightbox) closeLightbox(); });
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
-
-/* Netlify thank-you */
+/* Netlify form submit — show thank you message */
 (() => {
   const form = document.getElementById("orderForm");
   const thanks = document.getElementById("thanks");
@@ -65,91 +55,79 @@ document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLight
   });
 })();
 
-/* Gallery from manifest.json */
-const grid = document.getElementById("galleryGrid");
-const empty = document.getElementById("galleryEmpty");
-const filters = document.querySelectorAll(".filter");
+/* Gallery loader (reads content/gallery/gallery.json) */
+async function loadGallery(){
+  const grid = document.getElementById("galleryGrid");
+  const hero = document.getElementById("heroPreview");
+  if (!grid) return;
 
-let manifest = null;
-let activeCategory = "tumblers";
+  try{
+    const res = await fetch("content/gallery/gallery.json", { cache: "no-store" });
+    if (!res.ok) throw new Error("gallery.json not found");
+    const data = await res.json();
 
-async function loadManifest() {
-  const res = await fetch("assets/manifest.json", { cache: "no-store" });
-  if (!res.ok) throw new Error("Could not load manifest.json");
-  return await res.json();
+    // data = [{ category, file, title }]
+    // Build UI
+    window.__CCC_ITEMS = Array.isArray(data) ? data : [];
+
+    renderGallery("all");
+
+    // Put a hero image if first exists
+    const first = window.__CCC_ITEMS[0];
+    if (hero && first){
+      hero.innerHTML = `<img src="${first.file}" alt="${first.title || "Featured"}">`;
+    }
+  }catch(err){
+    grid.innerHTML = `<div class="muted">Gallery list missing. Add <b>content/gallery/gallery.json</b> and commit/push.</div>`;
+    console.warn(err);
+  }
 }
 
-function prettyName(category) {
-  return category
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (m) => m.toUpperCase());
-}
+function renderGallery(filter){
+  const grid = document.getElementById("galleryGrid");
+  if (!grid) return;
 
-function renderCategory(category) {
-  if (!grid || !manifest) return;
-  activeCategory = category;
+  const items = (window.__CCC_ITEMS || []).filter(it => {
+    if (filter === "all") return true;
+    return (it.category || "") === filter;
+  });
 
-  // set active button
-  filters.forEach(b => b.classList.toggle("is-active", b.dataset.category === category));
-
-  // clear
-  grid.innerHTML = "";
-
-  const list = manifest[category] || [];
-  if (!list.length) {
-    if (empty) empty.hidden = false;
+  if (!items.length){
+    grid.innerHTML = `<div class="muted">No images found for this category yet.</div>`;
     return;
   }
-  if (empty) empty.hidden = true;
 
-  list.forEach((filename) => {
-    const src = `assets/${category}/${filename}`;
-    const caption = `${prettyName(category)} • ${filename}`;
+  grid.innerHTML = items.map((it, idx) => {
+    const title = it.title || it.file.split("/").pop();
+    const cat = it.category || "Gallery";
+    return `
+      <div class="gitem" data-src="${it.file}" data-cap="${cat} • ${title}">
+        <div class="gthumb"><img src="${it.file}" alt="${title}" loading="lazy"></div>
+        <div class="gmeta">
+          <div class="gtitle">${title}</div>
+          <div class="gcat">${cat}</div>
+        </div>
+      </div>
+    `;
+  }).join("");
 
-    const tile = document.createElement("button");
-    tile.className = "tile";
-    tile.type = "button";
-
-    const img = document.createElement("img");
-    img.loading = "lazy";
-    img.decoding = "async";
-    img.src = src;
-    img.alt = caption;
-
-    // If an image 404s, hide it (so broken links don’t look ugly)
-    img.onerror = () => { tile.style.display = "none"; };
-
-    const cap = document.createElement("div");
-    cap.className = "cap";
-    cap.textContent = filename;
-
-    tile.appendChild(img);
-    tile.appendChild(cap);
-
-    tile.addEventListener("click", () => openLightbox(src, caption));
-
-    grid.appendChild(tile);
+  document.querySelectorAll(".gitem").forEach(el => {
+    el.addEventListener("click", () => {
+      const src = el.getAttribute("data-src");
+      const cap = el.getAttribute("data-cap") || "";
+      window.__openCCC?.(src, cap);
+    });
   });
 }
 
-filters.forEach(btn => {
+/* Filter chips */
+document.querySelectorAll(".chip").forEach(btn => {
   btn.addEventListener("click", () => {
-    const cat = btn.dataset.category;
-    if (!cat) return;
-    renderCategory(cat);
+    document.querySelectorAll(".chip").forEach(x => x.classList.remove("active"));
+    btn.classList.add("active");
+    const filter = btn.getAttribute("data-filter") || "all";
+    renderGallery(filter);
   });
 });
 
-// boot
-(async () => {
-  try {
-    manifest = await loadManifest();
-    renderCategory(activeCategory);
-  } catch (err) {
-    console.error(err);
-    if (empty) {
-      empty.hidden = false;
-      empty.innerHTML = `Could not load <code>assets/manifest.json</code>. Make sure it exists and is committed.`;
-    }
-  }
-})();
+loadGallery();
