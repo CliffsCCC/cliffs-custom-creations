@@ -1,14 +1,9 @@
-/* ============================
-   BASIC
-============================ */
-
 /* Year */
 const year = document.getElementById("year");
 if (year) year.textContent = new Date().getFullYear();
 
-/* Best Seller buttons scroll to email form and prefill item */
+/* Best Seller buttons scroll to contact + prefill item */
 const itemField = document.getElementById("itemField");
-
 document.querySelectorAll("[data-scroll-contact]").forEach(btn => {
   btn.addEventListener("click", () => {
     const item = btn.getAttribute("data-item") || "";
@@ -17,7 +12,46 @@ document.querySelectorAll("[data-scroll-contact]").forEach(btn => {
   });
 });
 
-/* Netlify form submit — show thank you message on same page */
+/* Featured image (optional) */
+(() => {
+  const img = document.getElementById("featuredImg");
+  if (!img) return;
+  const test = new Image();
+  test.onload = () => {
+    img.src = "assets/featured.jpg";
+    img.alt = "Featured work by Cliff’s Custom Creations";
+    img.style.display = "block";
+  };
+  test.onerror = () => { /* ignore */ };
+  test.src = "assets/featured.jpg";
+})();
+
+/* Lightbox */
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+const lightboxClose = document.getElementById("lightboxClose");
+const lightboxCap = document.getElementById("lightboxCap");
+
+function openLightbox(src, caption = "") {
+  if (!lightbox || !lightboxImg) return;
+  lightboxImg.src = src;
+  lightboxImg.alt = caption || "Gallery image";
+  if (lightboxCap) lightboxCap.textContent = caption || "";
+  lightbox.classList.add("show");
+  lightbox.setAttribute("aria-hidden", "false");
+}
+function closeLightbox() {
+  if (!lightbox || !lightboxImg) return;
+  lightbox.classList.remove("show");
+  lightbox.setAttribute("aria-hidden", "true");
+  lightboxImg.src = "";
+  if (lightboxCap) lightboxCap.textContent = "";
+}
+lightboxClose?.addEventListener("click", closeLightbox);
+lightbox?.addEventListener("click", (e) => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
+
+/* Netlify thank-you */
 (() => {
   const form = document.getElementById("orderForm");
   const thanks = document.getElementById("thanks");
@@ -31,143 +65,91 @@ document.querySelectorAll("[data-scroll-contact]").forEach(btn => {
   });
 })();
 
-/* ============================
-   LIGHTBOX
-============================ */
-(() => {
-  const lb = document.getElementById("lightbox");
-  const lbImg = document.getElementById("lightboxImg");
-  const lbClose = document.getElementById("lightboxClose");
-  if (!lb || !lbImg || !lbClose) return;
+/* Gallery from manifest.json */
+const grid = document.getElementById("galleryGrid");
+const empty = document.getElementById("galleryEmpty");
+const filters = document.querySelectorAll(".filter");
 
-  function openLightbox(src, alt = "") {
-    lbImg.src = src;
-    lbImg.alt = alt;
-    lb.classList.add("show");
-    lb.setAttribute("aria-hidden", "false");
+let manifest = null;
+let activeCategory = "tumblers";
+
+async function loadManifest() {
+  const res = await fetch("assets/manifest.json", { cache: "no-store" });
+  if (!res.ok) throw new Error("Could not load manifest.json");
+  return await res.json();
+}
+
+function prettyName(category) {
+  return category
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (m) => m.toUpperCase());
+}
+
+function renderCategory(category) {
+  if (!grid || !manifest) return;
+  activeCategory = category;
+
+  // set active button
+  filters.forEach(b => b.classList.toggle("is-active", b.dataset.category === category));
+
+  // clear
+  grid.innerHTML = "";
+
+  const list = manifest[category] || [];
+  if (!list.length) {
+    if (empty) empty.hidden = false;
+    return;
   }
+  if (empty) empty.hidden = true;
 
-  function closeLightbox() {
-    lb.classList.remove("show");
-    lb.setAttribute("aria-hidden", "true");
-    lbImg.src = "";
-  }
+  list.forEach((filename) => {
+    const src = `assets/${category}/${filename}`;
+    const caption = `${prettyName(category)} • ${filename}`;
 
-  // Delegate clicks for dynamically created gallery items
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".gimg");
-    if (!btn) return;
-    const src = btn.getAttribute("data-full");
-    const img = btn.querySelector("img");
-    if (src) openLightbox(src, img?.alt || "Gallery image");
+    const tile = document.createElement("button");
+    tile.className = "tile";
+    tile.type = "button";
+
+    const img = document.createElement("img");
+    img.loading = "lazy";
+    img.decoding = "async";
+    img.src = src;
+    img.alt = caption;
+
+    // If an image 404s, hide it (so broken links don’t look ugly)
+    img.onerror = () => { tile.style.display = "none"; };
+
+    const cap = document.createElement("div");
+    cap.className = "cap";
+    cap.textContent = filename;
+
+    tile.appendChild(img);
+    tile.appendChild(cap);
+
+    tile.addEventListener("click", () => openLightbox(src, caption));
+
+    grid.appendChild(tile);
   });
+}
 
-  lbClose.addEventListener("click", closeLightbox);
-  lb.addEventListener("click", (e) => { if (e.target === lb) closeLightbox(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
-})();
+filters.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const cat = btn.dataset.category;
+    if (!cat) return;
+    renderCategory(cat);
+  });
+});
 
-/* ============================
-   AUTO-LOADING GALLERY FROM GITHUB
-============================ */
-(() => {
-  // ✅ CHANGE THESE IF YOUR GITHUB IS DIFFERENT
-  const GITHUB_OWNER = "CliffsCCC";
-  const GITHUB_REPO  = "cliffs-custom-creations";
-  const BRANCH       = "main";
-
-  // These must match folder names in your repo EXACTLY
-  const FOLDERS = [
-    { key: "tumblers", path: "assets/Tumblers", mountId: "gallery-tumblers", titlePrefix: "Tumbler" },
-    { key: "coasters", path: "assets/Coasters", mountId: "gallery-coasters", titlePrefix: "Coaster" },
-  ];
-
-  const allowedExt = /\.(png|jpe?g|webp|gif)$/i;
-
-  function niceTitle(filename, prefix = "") {
-    const base = filename.replace(/\.[^/.]+$/, "");
-    const clean = base
-      .replace(/[-_]+/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-    return prefix ? `${prefix}: ${clean}` : clean;
-  }
-
-  async function listRepoFolder(folderPath) {
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${folderPath}?ref=${BRANCH}`;
-    const res = await fetch(url, { headers: { "Accept": "application/vnd.github+json" } });
-    if (!res.ok) throw new Error(`GitHub load failed: ${folderPath} (${res.status})`);
-
-    const data = await res.json();
-    return (Array.isArray(data) ? data : [])
-      .filter(item => item.type === "file" && allowedExt.test(item.name))
-      .map(item => item.name)
-      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }));
-  }
-
-  function renderGrid(mount, folderPath, fileNames, titlePrefix) {
-    if (!mount) return;
-
-    if (!fileNames.length) {
-      mount.innerHTML = `<div class="muted">No images found in <b>${folderPath}</b>.</div>`;
-      return;
-    }
-
-    // IMPORTANT: use RELATIVE paths (Netlify serves files from repo)
-    const html = fileNames.map(name => {
-      const rel = `${folderPath}/${name}`;
-      const alt = niceTitle(name, "");
-      const label = niceTitle(name, titlePrefix);
-
-      return `
-        <button class="gimg" data-full="${rel}" aria-label="${label}">
-          <img src="${rel}" alt="${alt}" loading="lazy" />
-        </button>
-      `;
-    }).join("");
-
-    mount.innerHTML = html;
-  }
-
-  async function loadAll() {
-    for (const f of FOLDERS) {
-      const mount = document.getElementById(f.mountId);
-      try {
-        const names = await listRepoFolder(f.path);
-        renderGrid(mount, f.path, names, f.titlePrefix);
-      } catch (err) {
-        console.error(err);
-        if (mount) {
-          mount.innerHTML = `
-            <div class="muted">
-              Could not load <b>${f.path}</b> from GitHub.<br/>
-              Make sure the folder exists in the repo and repo is public.
-            </div>
-          `;
-        }
-      }
+// boot
+(async () => {
+  try {
+    manifest = await loadManifest();
+    renderCategory(activeCategory);
+  } catch (err) {
+    console.error(err);
+    if (empty) {
+      empty.hidden = false;
+      empty.innerHTML = `Could not load <code>assets/manifest.json</code>. Make sure it exists and is committed.`;
     }
   }
-
-  // Tabs
-  function setupTabs() {
-    const tabs = document.querySelectorAll(".tab");
-    const panelTumblers = document.getElementById("panel-tumblers");
-    const panelCoasters = document.getElementById("panel-coasters");
-    if (!tabs.length || !panelTumblers || !panelCoasters) return;
-
-    tabs.forEach(t => {
-      t.addEventListener("click", () => {
-        tabs.forEach(x => x.classList.remove("active"));
-        t.classList.add("active");
-
-        const tab = t.getAttribute("data-tab");
-        panelTumblers.classList.toggle("show", tab === "tumblers");
-        panelCoasters.classList.toggle("show", tab === "coasters");
-      });
-    });
-  }
-
-  setupTabs();
-  loadAll();
 })();
