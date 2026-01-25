@@ -1,17 +1,27 @@
 [
   {
-    "title": "God Is Right",
-    "category": "tumblers",
-    "src": "assets/tumblers/god-is-right.png"
-  },
-  {
-    "title": "Jesus Is The Way",
-    "category": "tumblers",
-    "src": "assets/tumblers/jesus-is-the-way.png"
-  },
-  {
-    "title": "Faith Coaster Set",
+    "title": "coasters",
     "category": "coasters",
-    "src": "assets/coasters/faith-1.jpg"
+    "src": "assets/coasters/coasters"
+  },
+  {
+    "title": "keychains",
+    "category": "keychains",
+    "src": "assets/keychains/keychains"
+  },
+  {
+    "title": "tumblers",
+    "category": "tumblers",
+    "src": "assets/tumblers/tumblers"
+  },
+  {
+    "title": "wallets",
+    "category": "wallets",
+    "src": "assets/wallets/wallets"
+  },
+  {
+    "title": "woodworks",
+    "category": "woodworks",
+    "src": "assets/woodworks/woodworks"
   }
 ]
