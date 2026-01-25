@@ -5,17 +5,31 @@ backend:
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
-site_url: https://cliffs-custom-creations.netlify.app
-display_url: https://cliffs-custom-creations.netlify.app
+site_url: "/"
+display_url: "/"
 
 collections:
   - name: "gallery"
     label: "Gallery"
-    folder: "content/gallery"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Category", name: "category", widget: "select", options:
-          ["Coasters", "Tumblers", "Leather Keychains", "Wallets", "Wood Works"] }
-      - { label: "Image", name: "image", widget: "image" }
+    files:
+      - file: "content/gallery/gallery.json"
+        label: "Gallery Items"
+        name: "gallery_items"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}} ({{fields.category}})"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - label: "Category"
+                name: "category"
+                widget: "select"
+                options:
+                  - "Tumblers"
+                  - "Coasters"
+                  - "Leather Keychains"
+                  - "Wallets"
+                  - "Wood Works"
+              - { label: "Image", name: "file", widget: "image" }
+              - { label: "Featured", name: "featured", widget: "boolean", default: false, required: false }
