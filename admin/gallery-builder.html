@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CCC Gallery JSON Builder</title>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    background: #f4f1ec;
+    padding: 20px;
+  }
+  h1 { margin-bottom: 5px; }
+  .box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px;
+    max-width: 800px;
+  }
+  .drop {
+    border: 2px dashed #b59a6a;
+    padding: 30px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 15px 0;
+    background: #faf7f2;
+  }
+  textarea {
+    width: 100%;
+    height: 260px;
+    font-family: monospace;
+  }
+  select, button {
+    padding: 8px;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<h1>CCC Gallery JSON Builder</h1>
+<p>Drag images in → copy JSON → paste into <code>gallery.json</code></p>
+
+<div class="box">
+  <label>Category:</label>
+  <select id="category">
+    <option value="tumblers">Tumblers</option>
+    <option value="coasters">Coasters</option>
+    <option value="keychains">Keychains</option>
+    <option value="wallets">Wallets</option>
+    <option value="woodworks">Wood Works</option>
+  </select>
+
+  <div class="drop" id="drop">
+    Drop images here
+    <br><br>
+    <input type="file" multiple accept="image/*">
+  </div>
+
+  <textarea id="output" placeholder="Your gallery.json entries appear here"></textarea>
+  <br>
+  <button onclick="clearAll()">Clear</button>
+</div>
+
+<script>
+const drop = document.getElementById("drop");
+const input = drop.querySelector("input");
+const output = document.getElementById("output");
+
+function handleFiles(files) {
+  const cat = document.getElementById("category").value;
+  let json = "";
+
+  [...files].forEach(file => {
+    const clean = file.name.toLowerCase().replace(/\s+/g,"-");
+    json += `  {
+    "title": "${file.name.replace(/\.[^/.]+$/, "")}",
+    "category": "${cat}",
+    "src": "assets/${cat}/${clean}"
+  },\n`;
+  });
+
+  output.value += json;
+}
+
+input.addEventListener("change", e => handleFiles(e.target.files));
+drop.addEventListener("dragover", e => e.preventDefault());
+drop.addEventListener("drop", e => {
+  e.preventDefault();
+  handleFiles(e.dataTransfer.files);
+});
+
+function clearAll() {
+  output.value = "";
+}
+</script>
+
+</body>
+</html>
