@@ -1,10 +1,17 @@
-{
-  "items": [
-    {
-      "title": "God Is Right",
-      "category": "Tumblers",
-      "file": "assets/tumblers/god-is-right.png",
-      "featured": true
-    }
-  ]
-}
+[
+  {
+    "title": "God Is Right",
+    "category": "tumblers",
+    "src": "assets/tumblers/god-is-right.png"
+  },
+  {
+    "title": "Jesus Is The Way",
+    "category": "tumblers",
+    "src": "assets/tumblers/jesus-is-the-way.png"
+  },
+  {
+    "title": "Faith Coaster Set",
+    "category": "coasters",
+    "src": "assets/coasters/faith-1.jpg"
+  }
+]

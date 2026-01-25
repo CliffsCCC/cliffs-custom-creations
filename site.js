@@ -2,7 +2,7 @@
 const year = document.getElementById("year");
 if (year) year.textContent = new Date().getFullYear();
 
-/* Best Seller buttons -> scroll to form and prefill item */
+/* Best Seller buttons scroll to email form and prefill item */
 const itemField = document.getElementById("itemField");
 document.querySelectorAll("[data-scroll-contact]").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -12,31 +12,16 @@ document.querySelectorAll("[data-scroll-contact]").forEach(btn => {
   });
 });
 
-/* Netlify form: show thanks */
-(() => {
-  const form = document.getElementById("orderForm");
-  const thanks = document.getElementById("thanks");
-  if (!form || !thanks) return;
-  form.addEventListener("submit", () => {
-    setTimeout(() => {
-      thanks.hidden = false;
-      thanks.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 500);
-  });
-})();
-
 /* Lightbox */
 (() => {
   const lb = document.getElementById("lightbox");
   const lbImg = document.getElementById("lightboxImg");
-  const lbCap = document.getElementById("lightboxCap");
   const lbClose = document.getElementById("lightboxClose");
-  if (!lb || !lbImg || !lbClose || !lbCap) return;
+  if (!lb || !lbImg || !lbClose) return;
 
-  function openLightbox(src, alt = "", caption=""){
+  function openLightbox(src, alt=""){
     lbImg.src = src;
     lbImg.alt = alt;
-    lbCap.textContent = caption;
     lb.classList.add("show");
     lb.setAttribute("aria-hidden", "false");
   }
@@ -44,141 +29,142 @@ document.querySelectorAll("[data-scroll-contact]").forEach(btn => {
     lb.classList.remove("show");
     lb.setAttribute("aria-hidden", "true");
     lbImg.src = "";
-    lbCap.textContent = "";
   }
+
+  window.__openLightbox = openLightbox;
 
   lbClose.addEventListener("click", closeLightbox);
   lb.addEventListener("click", (e) => { if (e.target === lb) closeLightbox(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
-
-  window.__openLightbox = openLightbox;
 })();
 
 /* Gallery loader */
-(async () => {
-  const grid = document.getElementById("galleryGrid");
-  const filters = document.getElementById("filters");
-  const featuredImg = document.getElementById("featuredImg");
-  if (!grid || !filters) return;
+const grid = document.getElementById("galleryGrid");
+const empty = document.getElementById("galleryEmpty");
+const filters = document.getElementById("filters");
+const featuredImg = document.getElementById("featuredImg");
+const featuredTitle = document.getElementById("featuredTitle");
+const featuredCat = document.getElementById("featuredCat");
+const featuredCard = document.getElementById("featuredCard");
 
-  const CATS = [
-    "All",
-    "Tumblers",
-    "Coasters",
-    "Leather Keychains",
-    "Wallets",
-    "Wood Works"
-  ];
+let ITEMS = [];
+let ACTIVE = "all";
 
-  function normCat(cat){
-    const c = (cat || "").trim().toLowerCase();
-    if (c === "tumblers") return "Tumblers";
-    if (c === "coasters") return "Coasters";
-    if (c === "leather keychains" || c === "keychains") return "Leather Keychains";
-    if (c === "wallets" || c === "wallet") return "Wallets";
-    if (c === "wood works" || c === "woodworks") return "Wood Works";
-    return cat || "Tumblers";
-  }
+function normalizePath(p){
+  // ensure no leading slash differences
+  return (p || "").replace(/^\/+/, "");
+}
 
-  function safeUrl(path){
-    // encode spaces safely for folders if any still exist
-    return encodeURI(path);
-  }
+function card(item){
+  const btn = document.createElement("button");
+  btn.className = "gitem gimg";
+  btn.type = "button";
+  btn.dataset.category = item.category;
+  btn.dataset.full = normalizePath(item.src);
 
-  let data;
-  try{
-    const res = await fetch("content/gallery/gallery.json", { cache: "no-store" });
-    data = await res.json();
-  } catch (e){
-    grid.innerHTML = `<div class="muted">Could not load gallery.json</div>`;
+  btn.innerHTML = `
+    <img loading="lazy" src="${normalizePath(item.src)}" alt="${item.title}">
+    <div class="gmeta">
+      <div class="gtitle">${item.title}</div>
+      <div class="gcat">${item.category}</div>
+    </div>
+  `;
+
+  btn.addEventListener("click", () => {
+    window.__openLightbox?.(normalizePath(item.src), item.title);
+  });
+
+  // helpful debug if path wrong
+  btn.querySelector("img").addEventListener("error", () => {
+    btn.querySelector("img").alt = `Missing image: ${normalizePath(item.src)}`;
+  });
+
+  return btn;
+}
+
+function render(){
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  const show = (ACTIVE === "all")
+    ? ITEMS
+    : ITEMS.filter(x => x.category === ACTIVE);
+
+  if (!show.length){
+    empty.hidden = false;
     return;
   }
+  empty.hidden = true;
 
-  const items = Array.isArray(data?.items) ? data.items : [];
+  show.forEach(i => grid.appendChild(card(i)));
+}
 
-  // Featured: first item or any marked featured:true
-  const featured = items.find(x => x.featured) || items[0];
-  if (featuredImg && featured?.file){
-    featuredImg.src = safeUrl(featured.file);
-    featuredImg.alt = featured.title || "Featured item";
-  }
+function setActiveChip(value){
+  ACTIVE = value;
+  document.querySelectorAll(".chip").forEach(c => {
+    c.classList.toggle("active", c.dataset.filter === value);
+  });
+  render();
+}
 
-  // Build filter chips
-  let active = "All";
-  function renderChips(){
-    filters.innerHTML = "";
-    CATS.forEach(cat => {
-      const b = document.createElement("button");
-      b.className = "chip" + (cat === active ? " active" : "");
-      b.type = "button";
-      b.textContent = cat;
-      b.addEventListener("click", () => {
-        active = cat;
-        renderChips();
-        renderGrid();
+async function loadGallery(){
+  try{
+    const res = await fetch("content/gallery/gallery.json", { cache: "no-store" });
+    if (!res.ok) throw new Error("gallery.json not found");
+    const data = await res.json();
+
+    // Expect: [{title,category,src}]
+    ITEMS = Array.isArray(data) ? data.map(x => ({
+      title: x.title || "Untitled",
+      category: (x.category || "other").toLowerCase(),
+      src: normalizePath(x.src || "")
+    })).filter(x => x.src) : [];
+
+    // Featured
+    if (ITEMS.length && featuredImg){
+      const pick = ITEMS[Math.floor(Math.random() * ITEMS.length)];
+      featuredImg.src = pick.src;
+      featuredTitle.textContent = pick.title;
+      featuredCat.textContent = pick.category;
+      if (featuredCard){
+        featuredCard.dataset.full = pick.src;
+        featuredCard.addEventListener("click", () => {
+          window.__openLightbox?.(pick.src, pick.title);
+        });
+      }
+      featuredImg.addEventListener("error", () => {
+        featuredTitle.textContent = "Featured image missing";
+        featuredCat.textContent = pick.src;
       });
-      filters.appendChild(b);
-    });
-  }
-
-  function renderGrid(){
-    grid.innerHTML = "";
-    const filtered = items
-      .map(x => ({...x, category: normCat(x.category)}))
-      .filter(x => active === "All" ? true : x.category === active);
-
-    filtered.forEach(it => {
-      const card = document.createElement("button");
-      card.type = "button";
-      card.className = "gitem";
-
-      const thumb = document.createElement("div");
-      thumb.className = "gthumb";
-
-      const img = document.createElement("img");
-      img.loading = "lazy";
-      img.src = safeUrl(it.file);
-      img.alt = it.title || it.category || "Gallery item";
-
-      // if broken, show nothing instead of ugly broken icon
-      img.onerror = () => {
-        img.remove();
-        thumb.innerHTML = `<div class="muted" style="padding:12px;">Missing image<br><span style="font-size:12px;opacity:.7;">${it.file}</span></div>`;
-      };
-
-      thumb.appendChild(img);
-
-      const meta = document.createElement("div");
-      meta.className = "gmeta";
-
-      const left = document.createElement("div");
-      const title = document.createElement("div");
-      title.className = "gtitle";
-      title.textContent = it.title || it.category;
-      left.appendChild(title);
-
-      const right = document.createElement("div");
-      right.className = "gcat";
-      right.textContent = it.category;
-
-      meta.appendChild(left);
-      meta.appendChild(right);
-
-      card.appendChild(thumb);
-      card.appendChild(meta);
-
-      card.addEventListener("click", () => {
-        window.__openLightbox?.(safeUrl(it.file), it.title || "", `${it.title || ""}  •  ${it.category}`);
-      });
-
-      grid.appendChild(card);
-    });
-
-    if (filtered.length === 0){
-      grid.innerHTML = `<div class="muted">No photos in this category yet.</div>`;
     }
-  }
 
-  renderChips();
-  renderGrid();
+    render();
+  }catch(err){
+    console.error(err);
+    if (empty) empty.hidden = false;
+  }
+}
+
+if (filters){
+  filters.addEventListener("click", (e) => {
+    const btn = e.target.closest(".chip");
+    if (!btn) return;
+    setActiveChip(btn.dataset.filter);
+  });
+}
+
+loadGallery();
+
+/* Netlify form submit — show thank you message */
+(() => {
+  const form = document.getElementById("orderForm");
+  const thanks = document.getElementById("thanks");
+  if (!form || !thanks) return;
+
+  form.addEventListener("submit", () => {
+    setTimeout(() => {
+      thanks.hidden = false;
+      thanks.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 500);
+  });
 })();
