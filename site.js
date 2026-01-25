@@ -168,3 +168,38 @@ loadGallery();
     }, 500);
   });
 })();
+
+// =============================
+// GALLERY LOADER (FINAL VERSION)
+// =============================
+fetch("/content/gallery/gallery.json")
+  .then(res => {
+    if (!res.ok) throw new Error("Gallery JSON not found");
+    return res.json();
+  })
+  .then(items => {
+    const grid = document.getElementById("galleryGrid");
+    if (!grid) {
+      console.warn("galleryGrid not found in HTML");
+      return;
+    }
+
+    grid.innerHTML = "";
+
+    items.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "gallery-card";
+
+      card.innerHTML = `
+        <img src="${item.src}" alt="${item.title}" loading="lazy">
+        <div class="caption">
+          <strong>${item.title}</strong>
+          <span>${item.category}</span>
+        </div>
+      `;
+
+      grid.appendChild(card);
+    });
+  })
+  .catch(err => console.error("Gallery load error:", err));
+
