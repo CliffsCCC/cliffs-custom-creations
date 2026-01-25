@@ -1,12 +1,17 @@
 [
-  { "title": "god-is-right", "category": "tumblers", "src": "assets/tumblers/god-is-right.png" },
-  { "title": "love-1", "category": "tumblers", "src": "assets/tumblers/love-1.jpg" },
-  { "title": "love-2", "category": "tumblers", "src": "assets/tumblers/love-2.jpg" },
-  { "title": "tumbler-1", "category": "tumblers", "src": "assets/tumblers/tumbler-1.png" },
-  { "title": "tumbler-2", "category": "tumblers", "src": "assets/tumblers/tumbler-2.png" },
-  { "title": "texastech-1", "category": "tumblers", "src": "assets/tumblers/texastech-1.jpg" },
-  { "title": "skateboarding-1", "category": "tumblers", "src": "assets/tumblers/skateboarding-1.jpg" },
-  { "title": "eagle-1", "category": "tumblers", "src": "assets/tumblers/eagle-1.jpg" },
-  { "title": "wrestling-1", "category": "tumblers", "src": "assets/tumblers/wrestling-1.jpg" },
-  { "title": "wethepeople-1", "category": "tumblers", "src": "assets/tumblers/wethepeople-1.jpg" }
+  {
+    "title": "Love 1",
+    "category": "tumblers",
+    "src": "assets/tumblers/love-1.jpg"
+  },
+  {
+    "title": "Love 2",
+    "category": "tumblers",
+    "src": "assets/tumblers/love-2.jpg"
+  },
+  {
+    "title": "God Is Right",
+    "category": "tumblers",
+    "src": "assets/tumblers/god-is-right.png"
+  }
 ]
