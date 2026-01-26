@@ -8,99 +8,60 @@
 </head>
 
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index.html">
-        <img class="brand-logo" src="assets/ccc-logo.png" alt="CCC Logo" onerror="this.style.display='none'">
-        <div class="brand-text">
-          <div class="brand-name">Cliff’s Custom Creations</div>
-          <div class="brand-sub">Faith • Family • Craftsmanship • Laser Engraving</div>
-        </div>
-      </a>
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="brand">Cliff’s Custom Creations</a>
+  </div>
+</header>
 
-      <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="coasters.html">Coasters</a>
-        <a href="keychains.html">Keychains</a>
-        <a href="tumblers.html">Tumblers</a>
-        <a href="wallets.html">Wallets</a>
-        <a href="woodworks.html">Woodworks</a>
-        <a class="btn primary active" href="custom-order.html">Custom Order</a>
-        <a class="btn" href="reviews.html">Reviews</a>
-      </nav>
-    </div>
-  </header>
+<main class="container">
+  <h1>Custom Order Request</h1>
+  <p>Tell us what you’d like created — we’ll take it from there.</p>
 
-  <main class="container">
-    <div class="page-head">
-      <h1>Custom Order</h1>
-      <p class="muted">Fill this out and I’ll contact you to confirm details + pricing.</p>
-    </div>
+  <!-- NETLIFY FORM -->
+  <form 
+    name="custom-order"
+    method="POST"
+    data-netlify="true"
+    action="/thanks.html"
+  >
+    <!-- REQUIRED hidden input -->
+    <input type="hidden" name="form-name" value="custom-order" />
 
-    <form class="form-card" name="custom-order" method="POST" action="/thanks.html" netlify netlify-honeypot="bot-field">
-      <input type="hidden" name="form-name" value="custom-order" />
-      <p class="hidden">
-        <label>Don’t fill this out: <input name="bot-field" /></label>
-      </p>
+    <label>
+      Name
+      <input type="text" name="name" required />
+    </label>
 
-      <div class="form-grid">
-        <label>
-          Your Name
-          <input type="text" name="name" required />
-        </label>
+    <label>
+      Email
+      <input type="email" name="email" required />
+    </label>
 
-        <label>
-          Email
-          <input type="email" name="email" required />
-        </label>
+    <label>
+      Product Type
+      <select name="product" required>
+        <option value="">Select one</option>
+        <option>Coaster</option>
+        <option>Tumbler</option>
+        <option>Wallet</option>
+        <option>Keychain</option>
+        <option>Wood Plaque</option>
+        <option>Other</option>
+      </select>
+    </label>
 
-        <label>
-          Phone (optional)
-          <input type="tel" name="phone" />
-        </label>
+    <label>
+      Order Details
+      <textarea name="details" rows="5" required></textarea>
+    </label>
 
-        <label>
-          Product Type
-          <select name="product_type" required>
-            <option value="" selected disabled>Select one</option>
-            <option>Tumbler</option>
-            <option>Coasters</option>
-            <option>Keychains</option>
-            <option>Wallet</option>
-            <option>Woodworks</option>
-            <option>Other</option>
-          </select>
-        </label>
+    <button type="submit">Submit Custom Order</button>
+  </form>
+</main>
 
-        <label class="full">
-          What do you want engraved? (exact text/names)
-          <textarea name="engraving_text" rows="4" required></textarea>
-        </label>
-
-        <label class="full">
-          Design details (theme, logos, images, style, etc.)
-          <textarea name="design_details" rows="6" required></textarea>
-        </label>
-
-        <label class="full">
-          Deadline (optional)
-          <input type="text" name="deadline" placeholder="Example: Needed by Feb 14" />
-        </label>
-      </div>
-
-      <div class="form-actions">
-        <button class="btn primary" type="submit">Send Custom Order</button>
-        <span class="muted small">This sends directly to Netlify Forms.</span>
-      </div>
-    </form>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-scripture">📖 Numbers 6:24–26</div>
-    </div>
-  </footer>
-
-  <script src="site.js"></script>
+<footer class="site-footer">
+  <p>📖 Numbers 6:24–26</p>
+</footer>
 </body>
 </html>
