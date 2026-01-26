@@ -7,45 +7,42 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body data-page="coasters">
+<body data-gallery="coasters">
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="index.html">
-        <img class="brand-logo" src="assets/ccc-logo.png" alt="Cliff’s Custom Creations logo" />
+        <img class="brand-logo" src="assets/ccc-logo.png" alt="CCC Logo" onerror="this.style.display='none'">
         <div class="brand-text">
-          <span class="brand-name">Cliff’s Custom Creations</span>
-          <span class="brand-sub">Laser Engraving • Faith • Family • Craftsmanship</span>
+          <div class="brand-name">Cliff’s Custom Creations</div>
+          <div class="brand-sub">Faith • Family • Craftsmanship • Laser Engraving</div>
         </div>
       </a>
 
       <nav class="nav">
         <a href="index.html">Home</a>
-        <a href="coasters.html" class="active">Coasters</a>
+        <a class="active" href="coasters.html">Coasters</a>
         <a href="keychains.html">Keychains</a>
         <a href="tumblers.html">Tumblers</a>
         <a href="wallets.html">Wallets</a>
         <a href="woodworks.html">Woodworks</a>
-        <a href="index.html#custom-orders" class="btn btn-small">Custom Order</a>
+        <a class="btn primary" href="custom-order.html">Custom Order</a>
+        <a class="btn" href="reviews.html">Reviews</a>
       </nav>
     </div>
   </header>
 
-  <main class="section">
-    <div class="container">
-      <div class="page-head">
-        <h1 id="page-title">Coasters</h1>
-        <p>Showing <strong id="page-count"></strong>. Click an image to enlarge.</p>
-      </div>
-
-      <div id="gallery-grid" class="gallery-grid"></div>
+  <main class="container">
+    <div class="page-head">
+      <h1>Coasters</h1>
+      <p class="muted">Showing <strong id="page-count">0</strong></p>
     </div>
+
+    <div id="gallery-grid" class="gallery-grid"></div>
   </main>
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div class="footer-scripture">
-        📖 Numbers 6:24–26 — “The LORD bless you and keep you…”
-      </div>
+      <div class="footer-scripture">📖 Numbers 6:24–26</div>
     </div>
   </footer>
 
