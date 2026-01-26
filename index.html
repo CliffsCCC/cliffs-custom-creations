@@ -1,173 +1,245 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cliff’s Custom Creations</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cliff’s Custom Creations | Laser Engraving</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
-  <header class="topbar">
-    <div class="brand">
-      <img class="logo" src="assets/ccc-logo.png" alt="Cliff’s Custom Creations logo" />
-      <div class="brandText">
-        <div class="brandName">Cliff’s Custom Creations</div>
-        <div class="brandTag">Custom Laser Engraving</div>
-      </div>
-    </div>
+<body data-page="home">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Cliff's Custom Creations Home">
+        <img class="brand-logo" src="assets/ccc-logo.png" alt="Cliff’s Custom Creations logo" />
+        <div class="brand-text">
+          <span class="brand-name">Cliff’s Custom Creations</span>
+          <span class="brand-sub">Laser Engraving • Faith • Family • Craftsmanship</span>
+        </div>
+      </a>
 
-    <nav class="nav">
-      <a href="#best">Best Sellers</a>
-      <a href="#gallery">Gallery</a>
-      <a class="btn" href="#contact">Email to Order</a>
-    </nav>
+      <nav class="nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="coasters.html">Coasters</a>
+        <a href="keychains.html">Keychains</a>
+        <a href="tumblers.html">Tumblers</a>
+        <a href="wallets.html">Wallets</a>
+        <a href="woodworks.html">Woodworks</a>
+        <a href="#custom-orders" class="btn btn-small">Custom Order</a>
+      </nav>
+    </div>
   </header>
 
-  <main class="wrap">
+  <main>
+    <!-- HERO -->
     <section class="hero">
-      <div class="heroText">
-        <div class="pill">HANDCRAFTED • FAITH-CENTERED • BUILT TO LAST</div>
-        <h1>Custom Laser Engraved Gifts<br/>Made With Purpose</h1>
-        <p class="sub">Tumblers • Coasters • Leather Goods • Wood Works • Personalized Gifts</p>
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>Clean Detail. Deep Engraves.</h1>
+          <p>
+            Custom laser engraving on tumblers, leather, wood, slate, and more.
+            Faith-led craftsmanship with personal attention to every order.
+          </p>
 
-        <div class="heroBtns">
-          <a class="btn" href="#contact">Email to Order</a>
-          <a class="btn ghost" href="#gallery">See Gallery</a>
-        </div>
-
-        <div class="mini">
-          <div class="miniCard"><b>Fast replies</b><span>Typically 1–24 hours</span></div>
-          <div class="miniCard"><b>Proof before engraving</b><span>We confirm details first</span></div>
-          <div class="miniCard"><b>Made for gifting</b><span>Personal + meaningful</span></div>
-        </div>
-      </div>
-
-      <div class="featured">
-        <div class="featuredHead">
-          <b>Featured</b>
-          <span>New items & favorites rotate here.</span>
-        </div>
-        <button class="featuredCard gimg" id="featuredCard" data-full="" aria-label="Open featured image">
-          <img id="featuredImg" src="" alt="Featured item" />
-          <div class="featuredMeta">
-            <div id="featuredTitle" class="featuredTitle"></div>
-            <div id="featuredCat" class="featuredCat"></div>
+          <div class="hero-actions">
+            <a class="btn" href="#products">Browse Products</a>
+            <a class="btn btn-ghost" href="#custom-orders">Request Custom Order</a>
           </div>
-        </button>
-      </div>
-    </section>
 
-    <section id="best" class="section">
-      <h2>Best Sellers</h2>
-      <p class="muted">Tap a category — it will jump you to the email form.</p>
-
-      <div class="cards">
-        <button class="card" data-scroll-contact data-item="Tumblers">
-          <span class="badge">TOP SELLER</span>
-          <h3>Tumblers</h3>
-          <p>High-contrast engraving that pops on powder-coated cups.</p>
-          <span class="link">Email about Tumblers →</span>
-        </button>
-
-        <button class="card" data-scroll-contact data-item="Coasters">
-          <span class="badge">HOME</span>
-          <h3>Coasters</h3>
-          <p>Slate & wood styles — custom gifts for family, teams, or gifts.</p>
-          <span class="link">Email about Coasters →</span>
-        </button>
-
-        <button class="card" data-scroll-contact data-item="Leather Keychains">
-          <span class="badge">GIFT</span>
-          <h3>Leather Keychains</h3>
-          <p>Rugged, personal, and perfect for names, initials, or scripture.</p>
-          <span class="link">Email about Keychains →</span>
-        </button>
-
-        <button class="card" data-scroll-contact data-item="Wallets">
-          <span class="badge">LEATHER</span>
-          <h3>Wallets</h3>
-          <p>A meaningful daily carry — engraved clean and built to last.</p>
-          <span class="link">Email about Wallets →</span>
-        </button>
-
-        <button class="card" data-scroll-contact data-item="Wood Works">
-          <span class="badge">WOOD</span>
-          <h3>Wood Works</h3>
-          <p>Plaques, signs, pet memorials, and custom pieces.</p>
-          <span class="link">Email about Wood Works →</span>
-        </button>
-      </div>
-    </section>
-
-    <section id="gallery" class="section">
-      <div class="galleryHead">
-        <div>
-          <h2>Gallery</h2>
-          <p class="muted">Click any photo to enlarge.</p>
+          <div class="hero-contact">
+            <a class="pill" href="mailto:cliffscustomcreations25@gmail.com">✉ cliffscustomcreations25@gmail.com</a>
+            <a class="pill" href="https://wa.me/13607238107" target="_blank" rel="noopener">💬 WhatsApp: (360) 723-8107</a>
+            <a class="pill" href="https://www.facebook.com/share/1CEvjwWWPG/" target="_blank" rel="noopener">📘 Facebook Page</a>
+          </div>
         </div>
 
-        <div class="filters" id="filters">
-          <button class="chip active" data-filter="all">All</button>
-          <button class="chip" data-filter="tumblers">Tumblers</button>
-          <button class="chip" data-filter="coasters">Coasters</button>
-          <button class="chip" data-filter="keychains">Keychains</button>
-          <button class="chip" data-filter="wallets">Wallets</button>
-          <button class="chip" data-filter="woodworks">Wood Works</button>
+        <div class="hero-card" aria-label="Logo feature card">
+          <img src="assets/ccc-logo.png" alt="Cliff’s Custom Creations" />
         </div>
-      </div>
-
-      <div class="grid" id="galleryGrid"></div>
-      <div class="empty" id="galleryEmpty" hidden>
-        No images found. Check your <code>content/gallery/gallery.json</code> paths and file names.
       </div>
     </section>
 
-    <section id="contact" class="section">
-      <h2>Email to Order</h2>
-      <p class="muted">Tell me what you want engraved and I’ll reply with a proof + price.</p>
+    <!-- WHY FAITH -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Why Faith Matters to Us</h2>
+          <p>
+            Our business is built on faith, integrity, and serving people well.
+            We believe every piece should be created with care, honesty, and purpose.
+          </p>
+        </div>
 
-      <form name="order" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="orderForm" class="form">
-        <input type="hidden" name="form-name" value="order" />
-        <p class="hidden">
-          <label>Don’t fill this out: <input name="bot-field" /></label>
-        </p>
+        <div class="grid three">
+          <div class="card">
+            <h3>Integrity</h3>
+            <p>We’ll tell you what’s possible, and deliver what we promise.</p>
+          </div>
+          <div class="card">
+            <h3>Craftsmanship</h3>
+            <p>Clean engraves, great contrast, and attention to the details.</p>
+          </div>
+          <div class="card">
+            <h3>Family & Community</h3>
+            <p>We love creating meaningful gifts and custom pieces that last.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <div class="row">
-          <label> Your Name
-            <input name="name" required />
+    <!-- PRODUCTS -->
+    <section id="products" class="section section-dark">
+      <div class="container">
+        <div class="section-head">
+          <h2>Products</h2>
+          <p>Click a category to see all items in that folder.</p>
+        </div>
+
+        <div class="grid products">
+          <a class="product-tile" href="tumblers.html">
+            <div class="product-tile-title">Tumblers</div>
+            <div class="product-tile-sub">Faith • Names • Sports • Custom</div>
+          </a>
+
+          <a class="product-tile" href="coasters.html">
+            <div class="product-tile-title">Coasters</div>
+            <div class="product-tile-sub">Slate sets • Local landmarks • Custom</div>
+          </a>
+
+          <a class="product-tile" href="keychains.html">
+            <div class="product-tile-title">Keychains</div>
+            <div class="product-tile-sub">Leather • Names • His & Hers</div>
+          </a>
+
+          <a class="product-tile" href="wallets.html">
+            <div class="product-tile-title">Wallets</div>
+            <div class="product-tile-sub">Leather • Handwriting • Photo</div>
+          </a>
+
+          <a class="product-tile" href="woodworks.html">
+            <div class="product-tile-title">Woodworks</div>
+            <div class="product-tile-sub">Plaques • Pet photos • Holiday</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CUSTOM ORDER -->
+    <section id="custom-orders" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Custom Orders</h2>
+          <p>Tell us what you want made—size, material, names, images, and deadline.</p>
+        </div>
+
+        <!-- NETLIFY FORM (WORKS) -->
+        <form class="form"
+              name="custom-order"
+              method="POST"
+              data-netlify="true"
+              action="thanks.html">
+          <input type="hidden" name="form-name" value="custom-order" />
+
+          <div class="form-row">
+            <label>
+              Your Name
+              <input type="text" name="name" required />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" required />
+            </label>
+          </div>
+
+          <label>
+            What do you want engraved? (details)
+            <textarea name="message" rows="6" required></textarea>
           </label>
-          <label> Your Email
-            <input name="email" type="email" required />
-          </label>
-        </div>
 
-        <label> What item are you ordering?
-          <input id="itemField" name="item" placeholder="Tumblers, Coasters, etc." />
-        </label>
+          <div class="form-row">
+            <label>
+              Preferred Material
+              <select name="material">
+                <option value="Tumblers">Tumblers</option>
+                <option value="Leather">Leather</option>
+                <option value="Wood">Wood</option>
+                <option value="Slate">Slate</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
 
-        <label> Details (text, names, scripture, sizes, deadlines)
-          <textarea name="details" rows="6" required></textarea>
-        </label>
+            <label>
+              Deadline (optional)
+              <input type="text" name="deadline" placeholder="Example: Feb 10" />
+            </label>
+          </div>
 
-        <button class="btn" type="submit">Send Request</button>
-      </form>
-
-      <div id="thanks" class="thanks" hidden>
-        ✅ Message sent! I’ll reply soon.
+          <button class="btn" type="submit">Send Custom Request</button>
+        </form>
       </div>
     </section>
 
-    <footer class="footer">
-      <span>© <span id="year"></span> Cliff’s Custom Creations</span>
-    </footer>
+    <!-- REVIEWS -->
+    <section id="reviews" class="section section-dark">
+      <div class="container">
+        <div class="section-head">
+          <h2>Leave a Review</h2>
+          <p>Your feedback helps small businesses grow. Thank you!</p>
+        </div>
+
+        <!-- NETLIFY FORM (WORKS) -->
+        <form class="form"
+              name="review"
+              method="POST"
+              data-netlify="true"
+              action="thanks.html">
+          <input type="hidden" name="form-name" value="review" />
+
+          <div class="form-row">
+            <label>
+              Your Name
+              <input type="text" name="name" required />
+            </label>
+
+            <label>
+              Rating
+              <select name="rating" required>
+                <option value="5">★★★★★ (5)</option>
+                <option value="4">★★★★☆ (4)</option>
+                <option value="3">★★★☆☆ (3)</option>
+                <option value="2">★★☆☆☆ (2)</option>
+                <option value="1">★☆☆☆☆ (1)</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            Your Review
+            <textarea name="review" rows="5" required></textarea>
+          </label>
+
+          <button class="btn" type="submit">Submit Review</button>
+        </form>
+      </div>
+    </section>
   </main>
 
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" aria-hidden="true">
-    <button class="lightboxClose" id="lightboxClose" aria-label="Close">✕</button>
-    <img id="lightboxImg" alt="" />
-  </div>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <div class="footer-brand">Cliff’s Custom Creations</div>
+        <div class="footer-links">
+          <a href="mailto:cliffscustomcreations25@gmail.com">Email</a>
+          <a href="https://wa.me/13607238107" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="https://www.facebook.com/share/1CEvjwWWPG/" target="_blank" rel="noopener">Facebook</a>
+        </div>
+      </div>
+
+      <div class="footer-scripture">
+        📖 Numbers 6:24–26 — “The LORD bless you and keep you…”
+      </div>
+    </div>
+  </footer>
 
   <script src="site.js"></script>
 </body>

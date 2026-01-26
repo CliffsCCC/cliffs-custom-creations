@@ -1,45 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Thank You | Cliff’s Custom Creations</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
+<body data-page="thanks">
   <header class="site-header">
-    <div class="nav-wrap">
-      <a class="brand" href="./index.html">Cliff’s Custom Creations</a>
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/ccc-logo.png" alt="Cliff’s Custom Creations logo" />
+        <div class="brand-text">
+          <span class="brand-name">Cliff’s Custom Creations</span>
+          <span class="brand-sub">Laser Engraving • Faith • Family • Craftsmanship</span>
+        </div>
+      </a>
+
       <nav class="nav">
-        <a href="./index.html#products">Products</a>
-        <a class="btn" href="./index.html#contact">Contact</a>
+        <a href="index.html">Home</a>
+        <a href="coasters.html">Coasters</a>
+        <a href="keychains.html">Keychains</a>
+        <a href="tumblers.html">Tumblers</a>
+        <a href="wallets.html">Wallets</a>
+        <a href="woodworks.html">Woodworks</a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <div class="card" style="padding:18px">
-      <h1 style="margin:0 0 8px">Thank you! ✅</h1>
-      <p class="muted" style="margin:0">
-        We received your submission. We’ll get back to you as soon as possible.
-      </p>
-
-      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap">
-        <a class="btn" style="padding:12px 14px; text-decoration:none; font-weight:800" href="./index.html">
-          Back to Home
-        </a>
-        <a style="padding:12px 14px; text-decoration:none; font-weight:800; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06)"
-           href="mailto:cliffscustomcreations25@gmail.com">
-          Email Us
-        </a>
+  <main class="section">
+    <div class="container">
+      <div class="card center">
+        <h1>Thank you!</h1>
+        <p>We received your message and will get back to you as soon as we can.</p>
+        <div class="hero-actions">
+          <a class="btn" href="index.html">Back to Home</a>
+          <a class="btn btn-ghost" href="tumblers.html">Browse Tumblers</a>
+        </div>
       </div>
     </div>
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <p class="scripture">📖 Numbers 6:24–26</p>
+    <div class="container footer-inner">
+      <div class="footer-scripture">
+        📖 Numbers 6:24–26 — “The LORD bless you and keep you…”
+      </div>
     </div>
   </footer>
 </body>

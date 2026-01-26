@@ -1,43 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Woodworks | Cliff’s Custom Creations</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
+<body data-page="woodworks">
   <header class="site-header">
-    <div class="nav-wrap">
-      <a class="brand" href="./index.html">Cliff’s Custom Creations</a>
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/ccc-logo.png" alt="Cliff’s Custom Creations logo" />
+        <div class="brand-text">
+          <span class="brand-name">Cliff’s Custom Creations</span>
+          <span class="brand-sub">Laser Engraving • Faith • Family • Craftsmanship</span>
+        </div>
+      </a>
 
       <nav class="nav">
-        <a href="./index.html#products">Products</a>
-        <a href="./index.html#faith">Faith</a>
-        <a href="./index.html#custom-orders">Custom Orders</a>
-        <a href="./index.html#reviews">Reviews</a>
-        <a class="btn" href="./index.html#contact">Contact</a>
+        <a href="index.html">Home</a>
+        <a href="coasters.html">Coasters</a>
+        <a href="keychains.html">Keychains</a>
+        <a href="tumblers.html">Tumblers</a>
+        <a href="wallets.html">Wallets</a>
+        <a href="woodworks.html" class="active">Woodworks</a>
+        <a href="index.html#custom-orders" class="btn btn-small">Custom Order</a>
       </nav>
     </div>
   </header>
 
-  <main class="container" data-gallery="woodworks">
-    <h1 style="margin:0 0 6px">Woodworks</h1>
-    <p class="muted" style="margin:0 0 12px">
-      Browse our woodwork designs. Click any image to enlarge.
-      <span id="galleryStatus" class="muted" style="margin-left:8px"></span>
-    </p>
+  <main class="section">
+    <div class="container">
+      <div class="page-head">
+        <h1 id="page-title">Woodworks</h1>
+        <p>Showing <strong id="page-count"></strong>. Click an image to enlarge.</p>
+      </div>
 
-    <div id="galleryGrid" class="gallery-grid"></div>
+      <div id="gallery-grid" class="gallery-grid"></div>
+    </div>
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <p class="scripture">📖 Numbers 6:24–26</p>
+    <div class="container footer-inner">
+      <div class="footer-scripture">
+        📖 Numbers 6:24–26 — “The LORD bless you and keep you…”
+      </div>
     </div>
   </footer>
 
-  <script src="./site.js"></script>
+  <script src="site.js"></script>
 </body>
 </html>

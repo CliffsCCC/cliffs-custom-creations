@@ -1,205 +1,194 @@
-/* Year */
-const year = document.getElementById("year");
-if (year) year.textContent = new Date().getFullYear();
+(function () {
+  // ---- EDIT HERE if you add new images later ----
+  const GALLERIES = {
+    coasters: {
+      title: "Coasters",
+      folder: "assets/coasters/",
+      files: [
+        "72-TA.jpg",
+        "89-TA.jpg",
+        "Faith-1.jpg",
+        "Faith-2.jpg",
+        "FHS-1.jpg",
+        "Freedome-set.jpg",
+        "LM-1.jpg",
+        "LM-2.jpg",
+        "LM-3.jpg",
+        "LM-4.jpg",
+        "riverside-set.jpg",
+        "RS-1.jpg",
+        "RS-2.jpg",
+        "RS-3.jpg",
+        "RS-4.jpg",
+        "WF-1.jpg",
+        "WF-2.jpg",
+        "WF-3.jpg",
+        "WF-4.jpg",
+        "WF-5.jpg",
+        "Xmas-set-1.jpg"
+      ]
+    },
 
-/* Best Seller buttons scroll to email form and prefill item */
-const itemField = document.getElementById("itemField");
-document.querySelectorAll("[data-scroll-contact]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const item = btn.getAttribute("data-item") || "";
-    if (itemField) itemField.value = item;
-    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
-  });
-});
+    keychains: {
+      title: "Keychains",
+      folder: "assets/keychains/",
+      files: [
+        "faith-1.jpg",
+        "faith-2.jpg",
+        "favorvers-1.jpg",
+        "favorvers-2.jpg",
+        "hisandhers-1.jpg",
+        "iloveyou-1.jpg",
+        "keychain-1.jpg",
+        "lastnames-1.jpg",
+        "sheisstrong-1.jpg",
+        "teamwork-1.jpg"
+      ]
+    },
 
-/* Lightbox */
-(() => {
-  const lb = document.getElementById("lightbox");
-  const lbImg = document.getElementById("lightboxImg");
-  const lbClose = document.getElementById("lightboxClose");
-  if (!lb || !lbImg || !lbClose) return;
+    tumblers: {
+      title: "Tumblers",
+      folder: "assets/tumblers/",
+      files: [
+        "egale-1.jpg",
+        "getclean.png",
+        "godisright.png",
+        "grace.png",
+        "happybirthday-1.jpg",
+        "iamnotperfict-1.jpg",
+        "jesusistheway.png",
+        "love-1.jpg",
+        "love-2.jpg",
+        "skatebording-1.jpg",
+        "texastech-1.jpg",
+        "tumbler-1.png",
+        "tumbler-2.png",
+        "tumbler-3.jpg",
+        "werstling-1.jpg",
+        "wethepeople-1.jpg"
+      ]
+    },
 
-  function openLightbox(src, alt=""){
-    lbImg.src = src;
-    lbImg.alt = alt;
-    lb.classList.add("show");
-    lb.setAttribute("aria-hidden", "false");
-  }
-  function closeLightbox(){
-    lb.classList.remove("show");
-    lb.setAttribute("aria-hidden", "true");
-    lbImg.src = "";
-  }
+    wallets: {
+      title: "Wallets",
+      folder: "assets/wallets/",
+      files: [
+        "acualhandwriting.jpg",
+        "daughterandfather-1.jpg"
+      ]
+    },
 
-  window.__openLightbox = openLightbox;
+    woodworks: {
+      title: "Woodworks",
+      folder: "assets/woodworks/",
+      files: [
+        "baseballgame-1.jpg",
+        "baseballgame-2.jpg",
+        "nameplates.jpg",
+        "pet-1.jpg",
+        "pet-2.jpg",
+        "pet-3.jpg",
+        "pet-4.jpg",
+        "pet-5.jpg",
+        "pet-6.jpg",
+        "pet-7.jpg",
+        "pet-8.jpg",
+        "pet-9.jpg",
+        "pet-10.jpg",
+        "pet-11.jpg",
+        "woodenplaques-1.jpg",
+        "woodenplaques-2.jpg",
+        "woodenplaques-3.jpg",
+        "xmas-1.jpg",
+        "xmas-2.jpg",
+        "xmas-3.jpg",
+        "xmas-4.jpg",
+        "xmas-5.jpg"
+      ]
+    }
+  };
+  // ---------------------------------------------
 
-  lbClose.addEventListener("click", closeLightbox);
-  lb.addEventListener("click", (e) => { if (e.target === lb) closeLightbox(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
-})();
+  const page = document.body?.dataset?.page || "";
 
-/* Gallery loader */
-const grid = document.getElementById("galleryGrid");
-const empty = document.getElementById("galleryEmpty");
-const filters = document.getElementById("filters");
-const featuredImg = document.getElementById("featuredImg");
-const featuredTitle = document.getElementById("featuredTitle");
-const featuredCat = document.getElementById("featuredCat");
-const featuredCard = document.getElementById("featuredCard");
+  // Build lightbox once
+  const lightbox = createLightbox();
 
-let ITEMS = [];
-let ACTIVE = "all";
+  // If we’re on a gallery page, render the grid
+  if (["coasters", "keychains", "tumblers", "wallets", "woodworks"].includes(page)) {
+    const data = GALLERIES[page];
+    const grid = document.getElementById("gallery-grid");
+    const titleEl = document.getElementById("page-title");
+    const countEl = document.getElementById("page-count");
 
-function normalizePath(p){
-  // ensure no leading slash differences
-  return (p || "").replace(/^\/+/, "");
-}
+    if (titleEl) titleEl.textContent = data.title;
+    if (countEl) countEl.textContent = `${data.files.length} items`;
 
-function card(item){
-  const btn = document.createElement("button");
-  btn.className = "gitem gimg";
-  btn.type = "button";
-  btn.dataset.category = item.category;
-  btn.dataset.full = normalizePath(item.src);
-
-  btn.innerHTML = `
-    <img loading="lazy" src="${normalizePath(item.src)}" alt="${item.title}">
-    <div class="gmeta">
-      <div class="gtitle">${item.title}</div>
-      <div class="gcat">${item.category}</div>
-    </div>
-  `;
-
-  btn.addEventListener("click", () => {
-    window.__openLightbox?.(normalizePath(item.src), item.title);
-  });
-
-  // helpful debug if path wrong
-  btn.querySelector("img").addEventListener("error", () => {
-    btn.querySelector("img").alt = `Missing image: ${normalizePath(item.src)}`;
-  });
-
-  return btn;
-}
-
-function render(){
-  if (!grid) return;
-  grid.innerHTML = "";
-
-  const show = (ACTIVE === "all")
-    ? ITEMS
-    : ITEMS.filter(x => x.category === ACTIVE);
-
-  if (!show.length){
-    empty.hidden = false;
-    return;
-  }
-  empty.hidden = true;
-
-  show.forEach(i => grid.appendChild(card(i)));
-}
-
-function setActiveChip(value){
-  ACTIVE = value;
-  document.querySelectorAll(".chip").forEach(c => {
-    c.classList.toggle("active", c.dataset.filter === value);
-  });
-  render();
-}
-
-async function loadGallery(){
-  try{
-    const res = await fetch("content/gallery/gallery.json", { cache: "no-store" });
-    if (!res.ok) throw new Error("gallery.json not found");
-    const data = await res.json();
-
-    // Expect: [{title,category,src}]
-    ITEMS = Array.isArray(data) ? data.map(x => ({
-      title: x.title || "Untitled",
-      category: (x.category || "other").toLowerCase(),
-      src: normalizePath(x.src || "")
-    })).filter(x => x.src) : [];
-
-    // Featured
-    if (ITEMS.length && featuredImg){
-      const pick = ITEMS[Math.floor(Math.random() * ITEMS.length)];
-      featuredImg.src = pick.src;
-      featuredTitle.textContent = pick.title;
-      featuredCat.textContent = pick.category;
-      if (featuredCard){
-        featuredCard.dataset.full = pick.src;
-        featuredCard.addEventListener("click", () => {
-          window.__openLightbox?.(pick.src, pick.title);
-        });
-      }
-      featuredImg.addEventListener("error", () => {
-        featuredTitle.textContent = "Featured image missing";
-        featuredCat.textContent = pick.src;
+    if (grid) {
+      grid.innerHTML = "";
+      data.files.forEach((file) => {
+        const src = data.folder + file;
+        const item = document.createElement("div");
+        item.className = "gallery-item";
+        item.innerHTML = `
+          <img src="${src}" alt="${file}" loading="lazy" />
+          <div class="gallery-cap">${prettyName(file)}</div>
+        `;
+        item.addEventListener("click", () => openLightbox(src, prettyName(file)));
+        grid.appendChild(item);
       });
     }
-
-    render();
-  }catch(err){
-    console.error(err);
-    if (empty) empty.hidden = false;
   }
-}
 
-if (filters){
-  filters.addEventListener("click", (e) => {
-    const btn = e.target.closest(".chip");
-    if (!btn) return;
-    setActiveChip(btn.dataset.filter);
-  });
-}
+  // helpers
+  function prettyName(filename) {
+    return filename
+      .replace(/\.[^/.]+$/, "")
+      .replace(/[-_]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
 
-loadGallery();
-
-/* Netlify form submit — show thank you message */
-(() => {
-  const form = document.getElementById("orderForm");
-  const thanks = document.getElementById("thanks");
-  if (!form || !thanks) return;
-
-  form.addEventListener("submit", () => {
-    setTimeout(() => {
-      thanks.hidden = false;
-      thanks.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 500);
-  });
-})();
-
-// =============================
-// GALLERY LOADER (FINAL VERSION)
-// =============================
-fetch("/content/gallery/gallery.json")
-  .then(res => {
-    if (!res.ok) throw new Error("Gallery JSON not found");
-    return res.json();
-  })
-  .then(items => {
-    const grid = document.getElementById("galleryGrid");
-    if (!grid) {
-      console.warn("galleryGrid not found in HTML");
-      return;
-    }
-
-    grid.innerHTML = "";
-
-    items.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "gallery-card";
-
-      card.innerHTML = `
-        <img src="${item.src}" alt="${item.title}" loading="lazy">
-        <div class="caption">
-          <strong>${item.title}</strong>
-          <span>${item.category}</span>
+  function createLightbox() {
+    const el = document.createElement("div");
+    el.className = "lightbox";
+    el.innerHTML = `
+      <div class="lightbox-inner" role="dialog" aria-modal="true">
+        <div class="lightbox-bar">
+          <div class="lightbox-title" id="lbTitle"></div>
+          <button class="lightbox-close" id="lbClose" type="button">Close ✕</button>
         </div>
-      `;
+        <img class="lightbox-img" id="lbImg" alt="" />
+      </div>
+    `;
+    document.body.appendChild(el);
 
-      grid.appendChild(card);
+    el.addEventListener("click", (e) => {
+      if (e.target === el) closeLightbox();
     });
-  })
-  .catch(err => console.error("Gallery load error:", err));
+    el.querySelector("#lbClose").addEventListener("click", closeLightbox);
 
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightbox();
+    });
+
+    return el;
+  }
+
+  function openLightbox(src, title) {
+    lightbox.classList.add("open");
+    const img = lightbox.querySelector("#lbImg");
+    const t = lightbox.querySelector("#lbTitle");
+    img.src = src;
+    img.alt = title;
+    t.textContent = title;
+  }
+
+  function closeLightbox() {
+    if (!lightbox.classList.contains("open")) return;
+    lightbox.classList.remove("open");
+    const img = lightbox.querySelector("#lbImg");
+    img.src = "";
+    img.alt = "";
+  }
+})();
