@@ -8,6 +8,7 @@
 </head>
 
 <body data-gallery="tumblers">
+  <!-- HEADER -->
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="index.html">
@@ -31,18 +32,55 @@
     </div>
   </header>
 
+  <!-- FEATURED SECTION -->
   <main class="container">
-    <div class="page-head">
-      <h1>Tumblers</h1>
-      <p class="muted">Showing <strong id="page-count">0</strong></p>
-    </div>
+    <section class="featured">
+      <div class="featured-card">
+        <div class="featured-media">
+          <img
+            src="assets/tumblers/featured.jpg"
+            alt="Featured custom tumbler"
+            loading="lazy"
+            onerror="this.closest('.featured').style.display='none';"
+          />
+        </div>
 
+        <div class="featured-info">
+          <div class="badge">Featured Tumbler</div>
+          <h1 class="featured-title">Custom Laser-Engraved Tumblers</h1>
+          <p class="featured-text">
+            Names, logos, photos, verses, team themes — built to last and made to gift.
+            Want one like this? Send me what you have in mind and I’ll mock it up.
+          </p>
+
+          <div class="featured-actions">
+            <a class="btn primary" href="custom-order.html">Start a Custom Order</a>
+            <a class="btn" href="#gallery">View Full Gallery</a>
+          </div>
+
+          <p class="featured-note">
+            Tip: If you want the exact look in the photo, mention “Featured Tumbler” in your order notes.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE HEAD -->
+    <section class="page-head" id="gallery">
+      <h2>Tumbler Gallery</h2>
+      <p class="muted">
+        Showing <strong id="page-count">0</strong> designs. Click any image to enlarge.
+      </p>
+    </section>
+
+    <!-- GALLERY GRID (site.js fills this) -->
     <div id="gallery-grid" class="gallery-grid"></div>
   </main>
 
+  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div class="footer-scripture">📖 Numbers 6:24–26</div>
+      <div class="footer-scripture">Numbers 6:24–26</div>
     </div>
   </footer>
 
