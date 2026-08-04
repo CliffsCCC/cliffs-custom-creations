@@ -1,4 +1,4 @@
-(() => {
+(async () => {
   // Mobile navigation
   const menuBtn = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.nav');
@@ -10,9 +10,8 @@
   }
 
   /*
-   * IMPORTANT:
-   * Folder names must match GitHub exactly.
-   * Netlify is case-sensitive.
+   * Existing gallery photos.
+   * Folder names must match GitHub exactly because Netlify is case-sensitive.
    */
   const GALLERIES = {
     coasters: {
@@ -129,165 +128,392 @@
       .replace(/\b\w/g, (letter) => letter.toUpperCase());
   };
 
-  const allGalleryItems = Object.entries(GALLERIES).flatMap(
+  const legacyGalleryItems = Object.entries(GALLERIES).flatMap(
     ([category, gallery]) => {
       return gallery.files.map((file) => ({
+        id: `legacy-${category}-${file}`,
         category,
         categoryLabel: gallery.label,
-        file,
         src: gallery.folder + file,
-        title: prettyName(file)
+        title: prettyName(file),
+        price: '',
+        description: '',
+        featured: false,
+        isDynamic: false
       }));
     }
   );
 
-  // Lightbox
+  const normalizePublishedProduct = (product) => {
+    if (!product || typeof product !== 'object') {
+      return null;
+    }
+
+    const category =
+      typeof product.category === 'string'
+        ? product.category.trim().toLowerCase()
+        : '';
+
+    if (!GALLERIES[category]) {
+      return null;
+    }
+
+    const title =
+      typeof product.title === 'string'
+        ? product.title.trim()
+        : '';
+
+    const src =
+      typeof product.imageUrl === 'string'
+        ? product.imageUrl.trim()
+        : '';
+
+    if (
+      !title ||
+      !src.startsWith('https://res.cloudinary.com/')
+    ) {
+      return null;
+    }
+
+    return {
+      id:
+        product.id ||
+        `product-${Date.now()}-${Math.random()}`,
+
+      category,
+      categoryLabel: GALLERIES[category].label,
+      src,
+      title,
+
+      price:
+        typeof product.price === 'string'
+          ? product.price.trim()
+          : '',
+
+      description:
+        typeof product.description === 'string'
+          ? product.description.trim()
+          : '',
+
+      featured: Boolean(product.featured),
+      isDynamic: true
+    };
+  };
+
+  const loadPublishedProducts = async () => {
+    try {
+      const response = await fetch(
+        `products.json?v=${Date.now()}`,
+        {
+          cache: 'no-store'
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `products.json returned ${response.status}`
+        );
+      }
+
+      const products = await response.json();
+
+      if (!Array.isArray(products)) {
+        throw new Error(
+          'products.json must contain an array.'
+        );
+      }
+
+      return products
+        .filter((product) => product.published !== false)
+        .map(normalizePublishedProduct)
+        .filter(Boolean);
+    } catch (error) {
+      console.error(
+        'Could not load published products:',
+        error
+      );
+
+      return [];
+    }
+  };
+
+  const publishedProducts =
+    await loadPublishedProducts();
+
+  /*
+   * New products are placed first.
+   */
+  const allGalleryItems = [
+    ...publishedProducts,
+    ...legacyGalleryItems
+  ];
+
+  /*
+   * Lightbox
+   */
   const lightbox = document.createElement('div');
   lightbox.className = 'lightbox';
 
-  lightbox.innerHTML = `
-    <div class="lightbox-inner">
-      <div class="lightbox-bar">
-        <div class="lightbox-title" id="lbTitle"></div>
+  const lightboxInner =
+    document.createElement('div');
 
-        <button
-          class="lightbox-close"
-          id="lbClose"
-          type="button"
-          aria-label="Close image"
-        >
-          Close ✕
-        </button>
-      </div>
+  lightboxInner.className = 'lightbox-inner';
 
-      <img
-        class="lightbox-img"
-        id="lbImg"
-        src=""
-        alt=""
-      />
-    </div>
-  `;
+  const lightboxBar =
+    document.createElement('div');
 
+  lightboxBar.className = 'lightbox-bar';
+
+  const lightboxTitle =
+    document.createElement('div');
+
+  lightboxTitle.className = 'lightbox-title';
+
+  const lightboxClose =
+    document.createElement('button');
+
+  lightboxClose.className = 'lightbox-close';
+  lightboxClose.type = 'button';
+
+  lightboxClose.setAttribute(
+    'aria-label',
+    'Close image'
+  );
+
+  lightboxClose.textContent = 'Close ✕';
+
+  const lightboxImage =
+    document.createElement('img');
+
+  lightboxImage.className = 'lightbox-img';
+  lightboxImage.alt = '';
+
+  lightboxBar.append(
+    lightboxTitle,
+    lightboxClose
+  );
+
+  lightboxInner.append(
+    lightboxBar,
+    lightboxImage
+  );
+
+  lightbox.appendChild(lightboxInner);
   document.body.appendChild(lightbox);
 
-  const lightboxImage = lightbox.querySelector('#lbImg');
-  const lightboxTitle = lightbox.querySelector('#lbTitle');
-  const lightboxClose = lightbox.querySelector('#lbClose');
-
-  const openLightbox = (src, title) => {
+  const openLightbox = (item) => {
     lightbox.classList.add('open');
-    lightboxImage.src = src;
-    lightboxImage.alt = title || '';
-    lightboxTitle.textContent = title || '';
+
+    lightboxImage.src = item.src;
+    lightboxImage.alt = item.title;
+
+    const details = [item.title];
+
+    if (item.price) {
+      details.push(item.price);
+    }
+
+    lightboxTitle.textContent =
+      details.join(' — ');
+
     document.body.style.overflow = 'hidden';
   };
 
   const closeLightbox = () => {
     lightbox.classList.remove('open');
+
     lightboxImage.src = '';
     lightboxImage.alt = '';
     lightboxTitle.textContent = '';
+
     document.body.style.overflow = '';
   };
 
-  lightbox.addEventListener('click', (event) => {
-    if (event.target === lightbox) {
-      closeLightbox();
+  lightbox.addEventListener(
+    'click',
+    (event) => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
     }
-  });
+  );
 
-  lightboxClose.addEventListener('click', closeLightbox);
+  lightboxClose.addEventListener(
+    'click',
+    closeLightbox
+  );
 
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      closeLightbox();
+  document.addEventListener(
+    'keydown',
+    (event) => {
+      if (event.key === 'Escape') {
+        closeLightbox();
+      }
     }
-  });
+  );
 
   const createGalleryCard = (item) => {
-    const card = document.createElement('button');
+    const card =
+      document.createElement('button');
+
     card.className = 'gallery-card';
     card.type = 'button';
+
     card.setAttribute(
       'aria-label',
       `View ${item.title} in ${item.categoryLabel}`
     );
 
-    card.innerHTML = `
-      <img
-        src="${item.src}"
-        alt="${item.title}"
-        loading="lazy"
-      />
+    const image =
+      document.createElement('img');
 
-      <div class="gallery-cap">
-        <span>${item.title}</span>
-        <small>${item.categoryLabel}</small>
-      </div>
-    `;
+    image.src = item.src;
+    image.alt = item.title;
+    image.loading = 'lazy';
 
-    card.addEventListener('click', () => {
-      openLightbox(item.src, item.title);
-    });
+    image.addEventListener(
+      'error',
+      () => {
+        card.remove();
+      }
+    );
+
+    const caption =
+      document.createElement('div');
+
+    caption.className = 'gallery-cap';
+
+    const title =
+      document.createElement('span');
+
+    title.textContent = item.title;
+
+    const category =
+      document.createElement('small');
+
+    category.textContent =
+      item.categoryLabel;
+
+    caption.append(
+      title,
+      category
+    );
+
+    if (item.price) {
+      const price =
+        document.createElement('strong');
+
+      price.className = 'gallery-price';
+      price.textContent = item.price;
+
+      caption.appendChild(price);
+    }
+
+    if (item.description) {
+      const description =
+        document.createElement('p');
+
+      description.className =
+        'gallery-description';
+
+      description.textContent =
+        item.description;
+
+      caption.appendChild(description);
+    }
+
+    card.append(
+      image,
+      caption
+    );
+
+    card.addEventListener(
+      'click',
+      () => {
+        openLightbox(item);
+      }
+    );
 
     return card;
   };
 
-  const renderGallery = (items, grid, countEl) => {
+  const renderGallery = (
+    items,
+    grid,
+    countEl
+  ) => {
     grid.innerHTML = '';
 
     if (countEl) {
-      countEl.textContent = `${items.length} item${items.length === 1 ? '' : 's'}`;
+      countEl.textContent =
+        `${items.length} item${
+          items.length === 1 ? '' : 's'
+        }`;
     }
 
     if (!items.length) {
-      grid.innerHTML = `
-        <p class="gallery-empty">
-          No gallery items were found in this category.
-        </p>
-      `;
+      const empty =
+        document.createElement('p');
 
+      empty.className = 'gallery-empty';
+
+      empty.textContent =
+        'No gallery items were found in this category.';
+
+      grid.appendChild(empty);
       return;
     }
 
+    const fragment =
+      document.createDocumentFragment();
+
     items.forEach((item) => {
-      grid.appendChild(createGalleryCard(item));
+      fragment.appendChild(
+        createGalleryCard(item)
+      );
     });
+
+    grid.appendChild(fragment);
   };
 
-  /*
-   * Existing separate gallery pages
-   *
-   * These pages use:
-   * <body data-gallery="tumblers">
-   */
-  const currentCategory = document.body?.dataset?.gallery;
-  const galleryGrid = document.getElementById('gallery-grid');
-  const pageCount = document.getElementById('page-count');
+  const currentCategory =
+    document.body?.dataset?.gallery;
 
+  const galleryGrid =
+    document.getElementById('gallery-grid');
+
+  const pageCount =
+    document.getElementById('page-count');
+
+  /*
+   * Existing separate category pages
+   */
   if (
     currentCategory &&
     currentCategory !== 'all' &&
     galleryGrid &&
     GALLERIES[currentCategory]
   ) {
-    const categoryItems = allGalleryItems.filter(
-      (item) => item.category === currentCategory
-    );
+    const categoryItems =
+      allGalleryItems.filter(
+        (item) =>
+          item.category === currentCategory
+      );
 
-    renderGallery(categoryItems, galleryGrid, pageCount);
+    renderGallery(
+      categoryItems,
+      galleryGrid,
+      pageCount
+    );
   }
 
   /*
-   * New unified gallery page
-   *
-   * It will use:
-   * <body data-gallery="all">
-   * <div id="gallery-filters"></div>
-   * <div id="gallery-grid"></div>
+   * Unified gallery page
    */
-  const filterContainer = document.getElementById('gallery-filters');
+  const filterContainer =
+    document.getElementById(
+      'gallery-filters'
+    );
 
   if (
     currentCategory === 'all' &&
@@ -299,21 +525,32 @@
         value: 'all',
         label: 'All'
       },
-      ...Object.entries(GALLERIES).map(([value, gallery]) => ({
-        value,
-        label: gallery.label
-      }))
+
+      ...Object.entries(GALLERIES).map(
+        ([value, gallery]) => ({
+          value,
+          label: gallery.label
+        })
+      )
     ];
 
     let activeCategory = 'all';
 
     const updateFilterButtons = () => {
       filterContainer
-        .querySelectorAll('.gallery-filter')
+        .querySelectorAll(
+          '.gallery-filter'
+        )
         .forEach((button) => {
-          const isActive = button.dataset.category === activeCategory;
+          const isActive =
+            button.dataset.category ===
+            activeCategory;
 
-          button.classList.toggle('active', isActive);
+          button.classList.toggle(
+            'active',
+            isActive
+          );
+
           button.setAttribute(
             'aria-pressed',
             isActive ? 'true' : 'false'
@@ -322,49 +559,89 @@
     };
 
     const displayCategory = (category) => {
-      activeCategory = GALLERIES[category] ? category : 'all';
+      activeCategory =
+        GALLERIES[category]
+          ? category
+          : 'all';
 
       const visibleItems =
         activeCategory === 'all'
           ? allGalleryItems
           : allGalleryItems.filter(
-              (item) => item.category === activeCategory
+              (item) =>
+                item.category ===
+                activeCategory
             );
 
-      renderGallery(visibleItems, galleryGrid, pageCount);
+      renderGallery(
+        visibleItems,
+        galleryGrid,
+        pageCount
+      );
+
       updateFilterButtons();
 
-      const url = new URL(window.location.href);
+      const url =
+        new URL(window.location.href);
 
       if (activeCategory === 'all') {
-        url.searchParams.delete('category');
+        url.searchParams.delete(
+          'category'
+        );
       } else {
-        url.searchParams.set('category', activeCategory);
+        url.searchParams.set(
+          'category',
+          activeCategory
+        );
       }
 
-      window.history.replaceState({}, '', url);
+      window.history.replaceState(
+        {},
+        '',
+        url
+      );
     };
 
     filterOptions.forEach((option) => {
-      const button = document.createElement('button');
+      const button =
+        document.createElement('button');
 
       button.type = 'button';
-      button.className = 'gallery-filter';
-      button.dataset.category = option.value;
-      button.textContent = option.label;
-      button.setAttribute('aria-pressed', 'false');
+      button.className =
+        'gallery-filter';
 
-      button.addEventListener('click', () => {
-        displayCategory(option.value);
-      });
+      button.dataset.category =
+        option.value;
 
-      filterContainer.appendChild(button);
+      button.textContent =
+        option.label;
+
+      button.setAttribute(
+        'aria-pressed',
+        'false'
+      );
+
+      button.addEventListener(
+        'click',
+        () => {
+          displayCategory(
+            option.value
+          );
+        }
+      );
+
+      filterContainer.appendChild(
+        button
+      );
     });
 
-    const requestedCategory = new URLSearchParams(
-      window.location.search
-    ).get('category');
+    const requestedCategory =
+      new URLSearchParams(
+        window.location.search
+      ).get('category');
 
-    displayCategory(requestedCategory || 'all');
+    displayCategory(
+      requestedCategory || 'all'
+    );
   }
 })();
