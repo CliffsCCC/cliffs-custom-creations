@@ -36,6 +36,23 @@ const validCategories = new Set([
   "woodworks"
 ]);
 
+const isValidImageUrl = (imageUrl) => {
+  if (!imageUrl) {
+    return false;
+  }
+
+  const isCloudinary =
+    imageUrl.startsWith(
+      "https://res.cloudinary.com/"
+    );
+
+  const isLocalAsset =
+    imageUrl.startsWith("assets/") &&
+    !imageUrl.includes("..");
+
+  return isCloudinary || isLocalAsset;
+};
+
 export default async (request) => {
   if (request.method === "OPTIONS") {
     return json({
@@ -116,8 +133,7 @@ export default async (request) => {
     return json(
       {
         success: false,
-        message:
-          "A product ID is required."
+        message: "A product ID is required."
       },
       400
     );
@@ -127,8 +143,7 @@ export default async (request) => {
     return json(
       {
         success: false,
-        message:
-          "A product title is required."
+        message: "A product title is required."
       },
       400
     );
@@ -145,16 +160,12 @@ export default async (request) => {
     );
   }
 
-  if (
-    !imageUrl.startsWith(
-      "https://res.cloudinary.com/"
-    )
-  ) {
+  if (!isValidImageUrl(imageUrl)) {
     return json(
       {
         success: false,
         message:
-          "A valid Cloudinary image address is required."
+          "A valid Cloudinary or gallery asset image is required."
       },
       400
     );
