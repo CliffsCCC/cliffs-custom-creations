@@ -3,40 +3,443 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CCC Product Publisher</title>
+  <title>CCC Product Manager</title>
+
   <style>
-    :root{--cream:#f4eee5;--paper:#fffdf9;--ink:#2d2926;--muted:#6f665f;--rust:#a65318;--rust-dark:#7f3e11;--line:#d8c8b8;--success:#2f6b3b;--danger:#9c2f2f;--shadow:0 14px 35px rgba(52,37,25,.12)}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--cream);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
-    .admin-header{padding:20px;border-bottom:1px solid var(--line);background:var(--paper)}
-    .admin-header-inner{width:min(100% - 32px,980px);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .admin-header h1{margin:0;font-size:1.35rem}.admin-header a{color:var(--rust);font-weight:700;text-decoration:none}
-    main{width:min(100% - 32px,980px);margin:40px auto}.panel{padding:28px;border:1px solid var(--line);border-radius:18px;background:var(--paper);box-shadow:var(--shadow)}
-    .eyebrow{margin:0 0 8px;color:var(--rust);font-size:.8rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
-    h2{margin:0;font-size:clamp(1.7rem,4vw,2.5rem)}.intro{margin:12px 0 24px;color:var(--muted);line-height:1.6}
-    .step{margin-top:28px;padding-top:28px;border-top:1px solid var(--line)}.step:first-of-type{margin-top:0;padding-top:0;border-top:0}.step-heading{margin:0 0 16px;font-size:1.25rem}
-    .drop-zone{display:block;padding:44px 24px;border:2px dashed #b99d82;border-radius:16px;background:#fbf7f1;text-align:center;cursor:pointer;transition:border-color .16s ease,background .16s ease,transform .16s ease}
-    .drop-zone:hover,.drop-zone.dragging{border-color:var(--rust);background:#fff8ef;transform:translateY(-2px)}
-    .drop-icon{display:block;margin-bottom:12px;font-size:2.5rem}.drop-title{display:block;font-size:1.15rem;font-weight:800}.drop-help{display:block;margin-top:8px;color:var(--muted);font-size:.92rem}
-    #photoInput{position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}.preview-area{display:none;margin-top:22px}.preview-area.visible{display:block}
-    .preview-card{display:grid;grid-template-columns:220px 1fr;gap:22px;align-items:start;padding:18px;border:1px solid var(--line);border-radius:14px;background:#fff}
-    .preview-card img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;background:#eee5dc}.file-details{color:var(--muted);line-height:1.7;word-break:break-word}.file-details strong{color:var(--ink)}
-    .actions{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}button{border:0;border-radius:999px;padding:12px 20px;font:inherit;font-weight:800;cursor:pointer}
-    .primary-button{background:var(--rust);color:#fff}.primary-button:hover{background:var(--rust-dark)}.secondary-button{border:1px solid var(--line);background:#fff;color:var(--ink)}button:disabled{cursor:not-allowed;opacity:.55}
-    .upload-result{display:none;margin-top:20px;padding:18px;border:1px solid #aec8b4;border-radius:14px;background:#f1f8f2}.upload-result.visible{display:block}.upload-result h3{margin:0 0 12px;color:var(--success)}
-    .result-image{width:min(100%,360px);max-height:360px;object-fit:contain;border-radius:12px;background:#fff}
-    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}
-    label,.field-label{color:var(--ink);font-weight:800}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:12px 13px;font:inherit}
-    input:focus,select:focus,textarea:focus{border-color:var(--rust);outline:3px solid rgba(166,83,24,.14)}textarea{min-height:130px;resize:vertical}
-    .checkbox-row{display:flex;align-items:center;gap:10px;padding:12px 0}.checkbox-row input{width:auto}.status{min-height:24px;margin-top:18px;font-weight:700;line-height:1.5}.status.success{color:var(--success)}.status.error{color:var(--danger)}
-    .publish-summary{display:none;margin-top:22px;padding:18px;border:1px solid #aec8b4;border-radius:14px;background:#f1f8f2}.publish-summary.visible{display:block}.publish-summary h3{margin:0 0 10px;color:var(--success)}.publish-summary p{margin:6px 0;color:var(--muted);line-height:1.5}
-    .note{margin-top:22px;padding:14px 16px;border-left:4px solid var(--rust);background:#fff7ec;color:var(--muted);line-height:1.55}
-    @media(max-width:720px){.admin-header-inner{align-items:flex-start;flex-direction:column}.panel{padding:20px}.preview-card,.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+    :root {
+      --cream: #f4eee5;
+      --paper: #fffdf9;
+      --ink: #2d2926;
+      --muted: #6f665f;
+      --rust: #a65318;
+      --rust-dark: #7f3e11;
+      --line: #d8c8b8;
+      --success: #2f6b3b;
+      --danger: #9c2f2f;
+      --warning: #8c5a14;
+      --shadow: 0 14px 35px rgba(52, 37, 25, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .admin-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .admin-header-inner {
+      width: min(100% - 32px, 1080px);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .admin-header h1 {
+      margin: 0;
+      font-size: 1.35rem;
+    }
+
+    .admin-header a {
+      color: var(--rust);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    main {
+      width: min(100% - 32px, 1080px);
+      margin: 36px auto 60px;
+    }
+
+    .panel {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--rust);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+    }
+
+    .intro {
+      margin: 12px 0 24px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin: 26px 0;
+      flex-wrap: wrap;
+    }
+
+    .tab-button {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 11px 18px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .tab-button.active {
+      border-color: var(--rust);
+      background: var(--rust);
+      color: #fff;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .step {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .step:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .step-heading {
+      margin: 0 0 16px;
+      font-size: 1.25rem;
+    }
+
+    .drop-zone {
+      display: block;
+      padding: 42px 22px;
+      border: 2px dashed #b99d82;
+      border-radius: 16px;
+      background: #fbf7f1;
+      text-align: center;
+      cursor: pointer;
+      transition:
+        border-color 160ms ease,
+        background 160ms ease,
+        transform 160ms ease;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.dragging {
+      border-color: var(--rust);
+      background: #fff8ef;
+      transform: translateY(-2px);
+    }
+
+    .drop-icon {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 2.4rem;
+    }
+
+    .drop-title {
+      display: block;
+      font-size: 1.12rem;
+      font-weight: 800;
+    }
+
+    .drop-help {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .hidden-file-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .preview-area {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .preview-area.visible {
+      display: block;
+    }
+
+    .preview-card {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 20px;
+      align-items: start;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .preview-card img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 12px;
+      background: #eee5dc;
+    }
+
+    .file-details {
+      color: var(--muted);
+      line-height: 1.7;
+      word-break: break-word;
+    }
+
+    .file-details strong {
+      color: var(--ink);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label,
+    .field-label {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--ink);
+      padding: 12px 13px;
+      font: inherit;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--rust);
+      outline: 3px solid rgba(166, 83, 24, 0.14);
+    }
+
+    textarea {
+      min-height: 125px;
+      resize: vertical;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 46px;
+    }
+
+    .checkbox-row input {
+      width: auto;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    .primary-button {
+      background: var(--rust);
+      color: #fff;
+    }
+
+    .primary-button:hover {
+      background: var(--rust-dark);
+    }
+
+    .secondary-button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .status {
+      min-height: 24px;
+      margin-top: 16px;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .status.success {
+      color: var(--success);
+    }
+
+    .status.error {
+      color: var(--danger);
+    }
+
+    .status.warning {
+      color: var(--warning);
+    }
+
+    .success-box {
+      display: none;
+      margin-top: 20px;
+      padding: 18px;
+      border: 1px solid #aec8b4;
+      border-radius: 14px;
+      background: #f1f8f2;
+    }
+
+    .success-box.visible {
+      display: block;
+    }
+
+    .success-box h3 {
+      margin: 0 0 10px;
+      color: var(--success);
+    }
+
+    .product-picker {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .product-editor {
+      display: none;
+      margin-top: 26px;
+    }
+
+    .product-editor.visible {
+      display: block;
+    }
+
+    .current-product {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 18px;
+      margin-bottom: 24px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .current-product img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 12px;
+      background: #eee5dc;
+    }
+
+    .current-product h3 {
+      margin: 0 0 8px;
+    }
+
+    .current-product p {
+      margin: 6px 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .note {
+      margin-top: 24px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--rust);
+      background: #fff7ec;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    @media (max-width: 720px) {
+      .admin-header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .panel {
+        padding: 20px;
+      }
+
+      .preview-card,
+      .form-grid,
+      .current-product,
+      .product-picker {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+    }
   </style>
 </head>
+
 <body>
   <header class="admin-header">
     <div class="admin-header-inner">
-      <h1>Cliff’s Custom Creations — Product Publisher</h1>
+      <h1>Cliff’s Custom Creations — Product Manager</h1>
       <a href="gallery.html">View Gallery</a>
     </div>
   </header>
@@ -44,100 +447,424 @@
   <main>
     <section class="panel">
       <p class="eyebrow">CCC Control Center</p>
-      <h2>Add a gallery product</h2>
-      <p class="intro">Upload a product photo, enter its information, and publish it to your website.</p>
+      <h2>Manage your gallery</h2>
 
-      <div class="step">
-        <h3 class="step-heading">1. Choose and upload a photo</h3>
+      <p class="intro">
+        Add a new product or edit a product you already published.
+        Changes are saved to GitHub, then Netlify rebuilds the website.
+      </p>
 
-        <label id="dropZone" class="drop-zone" for="photoInput">
-          <span class="drop-icon">📷</span>
-          <span class="drop-title">Drag your photo here</span>
-          <span class="drop-help">or click to choose a JPG, PNG, WEBP, or GIF</span>
-        </label>
+      <div class="tabs">
+        <button
+          id="addTabButton"
+          class="tab-button active"
+          type="button"
+        >
+          Add New Product
+        </button>
 
-        <input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
+        <button
+          id="editTabButton"
+          class="tab-button"
+          type="button"
+        >
+          Edit Existing Product
+        </button>
+      </div>
 
-        <div id="previewArea" class="preview-area">
-          <div class="preview-card">
-            <img id="previewImage" src="" alt="Selected upload preview" />
-            <div>
-              <div id="fileDetails" class="file-details"></div>
-              <div class="actions">
-                <button id="uploadButton" class="primary-button" type="button">Upload to Cloudinary</button>
-                <button id="clearButton" class="secondary-button" type="button">Choose Another Photo</button>
+      <section
+        id="addPanel"
+        class="tab-panel active"
+      >
+        <div class="step">
+          <h3 class="step-heading">1. Choose and upload a photo</h3>
+
+          <label
+            id="addDropZone"
+            class="drop-zone"
+            for="addPhotoInput"
+          >
+            <span class="drop-icon">📷</span>
+            <span class="drop-title">Drag your photo here</span>
+            <span class="drop-help">
+              or click to choose a JPG, PNG, WEBP, or GIF
+            </span>
+          </label>
+
+          <input
+            id="addPhotoInput"
+            class="hidden-file-input"
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+          />
+
+          <div
+            id="addPreviewArea"
+            class="preview-area"
+          >
+            <div class="preview-card">
+              <img
+                id="addPreviewImage"
+                src=""
+                alt="Selected product preview"
+              />
+
+              <div>
+                <div
+                  id="addFileDetails"
+                  class="file-details"
+                ></div>
+
+                <div class="actions">
+                  <button
+                    id="addUploadButton"
+                    class="primary-button"
+                    type="button"
+                  >
+                    Upload to Cloudinary
+                  </button>
+
+                  <button
+                    id="addClearPhotoButton"
+                    class="secondary-button"
+                    type="button"
+                  >
+                    Choose Another Photo
+                  </button>
+                </div>
               </div>
+            </div>
+          </div>
+
+          <p
+            id="addUploadStatus"
+            class="status"
+            aria-live="polite"
+          ></p>
+        </div>
+
+        <div class="step">
+          <h3 class="step-heading">2. Enter product information</h3>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="addTitle">Product title</label>
+              <input
+                id="addTitle"
+                type="text"
+                maxlength="120"
+                placeholder="Example: Custom Faith Tumbler"
+              />
+            </div>
+
+            <div class="field">
+              <label for="addCategory">Category</label>
+              <select id="addCategory">
+                <option value="">Choose a category</option>
+                <option value="tumblers">Tumblers</option>
+                <option value="wallets">Wallets</option>
+                <option value="coasters">Coasters</option>
+                <option value="keychains">Keychains</option>
+                <option value="woodworks">Woodworks</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="addPrice">Price or starting price</label>
+              <input
+                id="addPrice"
+                type="text"
+                maxlength="40"
+                placeholder="Example: $30 or Starting at $25"
+              />
+            </div>
+
+            <div class="field">
+              <span class="field-label">Homepage option</span>
+              <label class="checkbox-row" for="addFeatured">
+                <input
+                  id="addFeatured"
+                  type="checkbox"
+                />
+                Mark this product as featured
+              </label>
+            </div>
+
+            <div class="field full">
+              <label for="addDescription">Description</label>
+              <textarea
+                id="addDescription"
+                maxlength="1000"
+                placeholder="Describe the product, customization options, material, size, or what makes it special."
+              ></textarea>
             </div>
           </div>
         </div>
 
-        <p id="uploadStatus" class="status" aria-live="polite"></p>
+        <div class="step">
+          <h3 class="step-heading">3. Publish the product</h3>
 
-        <div id="uploadResult" class="upload-result">
-          <h3>Photo upload successful</h3>
-          <img id="uploadedImage" class="result-image" src="" alt="Uploaded Cloudinary image" />
+          <button
+            id="publishButton"
+            class="primary-button"
+            type="button"
+            disabled
+          >
+            Publish Product
+          </button>
+
+          <p
+            id="publishStatus"
+            class="status"
+            aria-live="polite"
+          ></p>
+
+          <div
+            id="publishSuccess"
+            class="success-box"
+          >
+            <h3>Product published</h3>
+            <p>
+              GitHub was updated. Netlify should rebuild the website
+              automatically within a minute or two.
+            </p>
+
+            <div class="actions">
+              <a
+                class="primary-button"
+                href="gallery.html"
+                style="display:inline-block;text-decoration:none;"
+              >
+                Open Gallery
+              </a>
+
+              <button
+                id="addAnotherButton"
+                class="secondary-button"
+                type="button"
+              >
+                Add Another Product
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div class="step">
-        <h3 class="step-heading">2. Enter product information</h3>
+      <section
+        id="editPanel"
+        class="tab-panel"
+      >
+        <div class="step">
+          <h3 class="step-heading">1. Choose a published product</h3>
 
-        <div class="form-grid">
-          <div class="field">
-            <label for="productTitle">Product title</label>
-            <input id="productTitle" type="text" maxlength="120" placeholder="Example: Custom Faith Tumbler" />
+          <div class="product-picker">
+            <div class="field">
+              <label for="productSelect">Published products</label>
+              <select id="productSelect">
+                <option value="">Loading products…</option>
+              </select>
+            </div>
+
+            <button
+              id="refreshProductsButton"
+              class="secondary-button"
+              type="button"
+            >
+              Refresh List
+            </button>
           </div>
 
-          <div class="field">
-            <label for="productCategory">Category</label>
-            <select id="productCategory">
-              <option value="">Choose a category</option>
-              <option value="tumblers">Tumblers</option>
-              <option value="wallets">Wallets</option>
-              <option value="coasters">Coasters</option>
-              <option value="keychains">Keychains</option>
-              <option value="woodworks">Woodworks</option>
-            </select>
+          <p
+            id="productListStatus"
+            class="status"
+            aria-live="polite"
+          ></p>
+        </div>
+
+        <div
+          id="productEditor"
+          class="product-editor"
+        >
+          <div class="current-product">
+            <img
+              id="currentProductImage"
+              src=""
+              alt="Current product"
+            />
+
+            <div>
+              <h3 id="currentProductTitle"></h3>
+              <p id="currentProductCategory"></p>
+              <p id="currentProductPrice"></p>
+            </div>
           </div>
 
-          <div class="field">
-            <label for="productPrice">Price or starting price</label>
-            <input id="productPrice" type="text" maxlength="40" placeholder="Example: $30 or Starting at $25" />
+          <div class="step">
+            <h3 class="step-heading">2. Edit product information</h3>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="editTitle">Product title</label>
+                <input
+                  id="editTitle"
+                  type="text"
+                  maxlength="120"
+                />
+              </div>
+
+              <div class="field">
+                <label for="editCategory">Category</label>
+                <select id="editCategory">
+                  <option value="tumblers">Tumblers</option>
+                  <option value="wallets">Wallets</option>
+                  <option value="coasters">Coasters</option>
+                  <option value="keychains">Keychains</option>
+                  <option value="woodworks">Woodworks</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="editPrice">Price or starting price</label>
+                <input
+                  id="editPrice"
+                  type="text"
+                  maxlength="40"
+                />
+              </div>
+
+              <div class="field">
+                <span class="field-label">Product settings</span>
+
+                <label class="checkbox-row" for="editFeatured">
+                  <input
+                    id="editFeatured"
+                    type="checkbox"
+                  />
+                  Featured product
+                </label>
+
+                <label class="checkbox-row" for="editPublished">
+                  <input
+                    id="editPublished"
+                    type="checkbox"
+                  />
+                  Visible on the website
+                </label>
+              </div>
+
+              <div class="field full">
+                <label for="editDescription">Description</label>
+                <textarea
+                  id="editDescription"
+                  maxlength="1000"
+                ></textarea>
+              </div>
+            </div>
           </div>
 
-          <div class="field">
-            <span class="field-label">Homepage option</span>
-            <label class="checkbox-row" for="productFeatured">
-              <input id="productFeatured" type="checkbox" />
-              Mark this product as featured
+          <div class="step">
+            <h3 class="step-heading">3. Replace the photo (optional)</h3>
+
+            <label
+              id="editDropZone"
+              class="drop-zone"
+              for="editPhotoInput"
+            >
+              <span class="drop-icon">🖼️</span>
+              <span class="drop-title">
+                Keep the current photo or choose a replacement
+              </span>
+              <span class="drop-help">
+                A new photo is optional
+              </span>
             </label>
+
+            <input
+              id="editPhotoInput"
+              class="hidden-file-input"
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif"
+            />
+
+            <div
+              id="editPreviewArea"
+              class="preview-area"
+            >
+              <div class="preview-card">
+                <img
+                  id="editPreviewImage"
+                  src=""
+                  alt="Replacement photo preview"
+                />
+
+                <div>
+                  <div
+                    id="editFileDetails"
+                    class="file-details"
+                  ></div>
+
+                  <div class="actions">
+                    <button
+                      id="editUploadButton"
+                      class="primary-button"
+                      type="button"
+                    >
+                      Upload Replacement Photo
+                    </button>
+
+                    <button
+                      id="editClearPhotoButton"
+                      class="secondary-button"
+                      type="button"
+                    >
+                      Cancel Replacement
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p
+              id="editUploadStatus"
+              class="status"
+              aria-live="polite"
+            ></p>
           </div>
 
-          <div class="field full">
-            <label for="productDescription">Description</label>
-            <textarea id="productDescription" maxlength="1000" placeholder="Describe the product, customization options, material, size, or what makes it special."></textarea>
+          <div class="step">
+            <h3 class="step-heading">4. Save the changes</h3>
+
+            <button
+              id="saveChangesButton"
+              class="primary-button"
+              type="button"
+            >
+              Save Changes
+            </button>
+
+            <p
+              id="editStatus"
+              class="status"
+              aria-live="polite"
+            ></p>
+
+            <div
+              id="editSuccess"
+              class="success-box"
+            >
+              <h3>Product updated</h3>
+              <p>
+                GitHub was updated. Netlify should rebuild the website
+                automatically within a minute or two.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="step">
-        <h3 class="step-heading">3. Publish the product</h3>
-
-        <button id="publishButton" class="primary-button" type="button" disabled>Publish Product</button>
-        <p id="publishStatus" class="status" aria-live="polite"></p>
-
-        <div id="publishSummary" class="publish-summary">
-          <h3>Product published</h3>
-          <p>GitHub has been updated. Netlify should rebuild the website automatically within a minute or two.</p>
-          <p>After Netlify finishes, open the gallery to verify the product.</p>
-
-          <div class="actions">
-            <a class="primary-button" href="gallery.html" style="display:inline-block;text-decoration:none;">Open Gallery</a>
-            <button id="addAnotherButton" class="secondary-button" type="button">Add Another Product</button>
-          </div>
-        </div>
-
-        <div class="note">Keep this admin page private. It is intended for managing your business gallery, not for customers.</div>
+      <div class="note">
+        Keep this page private. It can add, edit, feature, hide, and
+        replace photos for products in your business gallery.
       </div>
     </section>
   </main>
@@ -146,242 +873,880 @@
     (() => {
       const CLOUD_NAME = 'yqp6jp9x';
       const UPLOAD_PRESET = 'ccc_gallery_uploads';
-      const PUBLISH_ENDPOINT = '/.netlify/functions/publish-product';
 
-      const photoInput = document.getElementById('photoInput');
-      const dropZone = document.getElementById('dropZone');
-      const previewArea = document.getElementById('previewArea');
-      const previewImage = document.getElementById('previewImage');
-      const fileDetails = document.getElementById('fileDetails');
-      const uploadButton = document.getElementById('uploadButton');
-      const clearButton = document.getElementById('clearButton');
-      const uploadStatus = document.getElementById('uploadStatus');
-      const uploadResult = document.getElementById('uploadResult');
-      const uploadedImage = document.getElementById('uploadedImage');
+      const PUBLISH_ENDPOINT =
+        '/.netlify/functions/publish-product';
 
-      const productTitle = document.getElementById('productTitle');
-      const productCategory = document.getElementById('productCategory');
-      const productPrice = document.getElementById('productPrice');
-      const productFeatured = document.getElementById('productFeatured');
-      const productDescription = document.getElementById('productDescription');
+      const UPDATE_ENDPOINT =
+        '/.netlify/functions/update-product';
 
-      const publishButton = document.getElementById('publishButton');
-      const publishStatus = document.getElementById('publishStatus');
-      const publishSummary = document.getElementById('publishSummary');
-      const addAnotherButton = document.getElementById('addAnotherButton');
+      const PRODUCTS_URL = 'products.json';
 
-      let selectedFile = null;
-      let previewUrl = '';
-      let cloudinaryImageUrl = '';
+      const allowedTypes = [
+        'image/jpeg',
+        'image/png',
+        'image/webp',
+        'image/gif'
+      ];
 
-      const allowedTypes = ['image/jpeg','image/png','image/webp','image/gif'];
       const maximumFileSize = 15 * 1024 * 1024;
 
+      const addTabButton =
+        document.getElementById('addTabButton');
+
+      const editTabButton =
+        document.getElementById('editTabButton');
+
+      const addPanel =
+        document.getElementById('addPanel');
+
+      const editPanel =
+        document.getElementById('editPanel');
+
+      const addPhotoInput =
+        document.getElementById('addPhotoInput');
+
+      const addDropZone =
+        document.getElementById('addDropZone');
+
+      const addPreviewArea =
+        document.getElementById('addPreviewArea');
+
+      const addPreviewImage =
+        document.getElementById('addPreviewImage');
+
+      const addFileDetails =
+        document.getElementById('addFileDetails');
+
+      const addUploadButton =
+        document.getElementById('addUploadButton');
+
+      const addClearPhotoButton =
+        document.getElementById('addClearPhotoButton');
+
+      const addUploadStatus =
+        document.getElementById('addUploadStatus');
+
+      const addTitle =
+        document.getElementById('addTitle');
+
+      const addCategory =
+        document.getElementById('addCategory');
+
+      const addPrice =
+        document.getElementById('addPrice');
+
+      const addFeatured =
+        document.getElementById('addFeatured');
+
+      const addDescription =
+        document.getElementById('addDescription');
+
+      const publishButton =
+        document.getElementById('publishButton');
+
+      const publishStatus =
+        document.getElementById('publishStatus');
+
+      const publishSuccess =
+        document.getElementById('publishSuccess');
+
+      const addAnotherButton =
+        document.getElementById('addAnotherButton');
+
+      const productSelect =
+        document.getElementById('productSelect');
+
+      const refreshProductsButton =
+        document.getElementById('refreshProductsButton');
+
+      const productListStatus =
+        document.getElementById('productListStatus');
+
+      const productEditor =
+        document.getElementById('productEditor');
+
+      const currentProductImage =
+        document.getElementById('currentProductImage');
+
+      const currentProductTitle =
+        document.getElementById('currentProductTitle');
+
+      const currentProductCategory =
+        document.getElementById('currentProductCategory');
+
+      const currentProductPrice =
+        document.getElementById('currentProductPrice');
+
+      const editTitle =
+        document.getElementById('editTitle');
+
+      const editCategory =
+        document.getElementById('editCategory');
+
+      const editPrice =
+        document.getElementById('editPrice');
+
+      const editFeatured =
+        document.getElementById('editFeatured');
+
+      const editPublished =
+        document.getElementById('editPublished');
+
+      const editDescription =
+        document.getElementById('editDescription');
+
+      const editPhotoInput =
+        document.getElementById('editPhotoInput');
+
+      const editDropZone =
+        document.getElementById('editDropZone');
+
+      const editPreviewArea =
+        document.getElementById('editPreviewArea');
+
+      const editPreviewImage =
+        document.getElementById('editPreviewImage');
+
+      const editFileDetails =
+        document.getElementById('editFileDetails');
+
+      const editUploadButton =
+        document.getElementById('editUploadButton');
+
+      const editClearPhotoButton =
+        document.getElementById('editClearPhotoButton');
+
+      const editUploadStatus =
+        document.getElementById('editUploadStatus');
+
+      const saveChangesButton =
+        document.getElementById('saveChangesButton');
+
+      const editStatus =
+        document.getElementById('editStatus');
+
+      const editSuccess =
+        document.getElementById('editSuccess');
+
+      let addSelectedFile = null;
+      let addPreviewUrl = '';
+      let addCloudinaryImageUrl = '';
+
+      let editSelectedFile = null;
+      let editPreviewUrl = '';
+      let replacementImageUrl = '';
+
+      let products = [];
+      let selectedProduct = null;
+
+      const categoryLabels = {
+        tumblers: 'Tumblers',
+        wallets: 'Wallets',
+        coasters: 'Coasters',
+        keychains: 'Keychains',
+        woodworks: 'Woodworks'
+      };
+
+      const setStatus = (
+        element,
+        message,
+        type = ''
+      ) => {
+        element.textContent = message;
+        element.className = 'status';
+
+        if (type) {
+          element.classList.add(type);
+        }
+      };
+
       const formatFileSize = (bytes) => {
-        if (bytes < 1024) return `${bytes} bytes`;
-        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+        if (bytes < 1024) {
+          return `${bytes} bytes`;
+        }
+
+        if (bytes < 1024 * 1024) {
+          return `${(bytes / 1024).toFixed(1)} KB`;
+        }
+
         return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
       };
 
-      const setStatus = (element, message, type = '') => {
-        element.textContent = message;
-        element.className = 'status';
-        if (type) element.classList.add(type);
-      };
+      const switchTab = (tab) => {
+        const isAdd = tab === 'add';
 
-      const updatePublishButton = () => {
-        publishButton.disabled = !cloudinaryImageUrl;
-      };
+        addTabButton.classList.toggle('active', isAdd);
+        editTabButton.classList.toggle('active', !isAdd);
 
-      const resetUploadResult = () => {
-        cloudinaryImageUrl = '';
-        uploadResult.classList.remove('visible');
-        uploadedImage.src = '';
-        updatePublishButton();
-      };
+        addPanel.classList.toggle('active', isAdd);
+        editPanel.classList.toggle('active', !isAdd);
 
-      const clearPhotoSelection = () => {
-        selectedFile = null;
-        photoInput.value = '';
-
-        if (previewUrl) {
-          URL.revokeObjectURL(previewUrl);
-          previewUrl = '';
+        if (!isAdd) {
+          loadProducts();
         }
-
-        previewImage.src = '';
-        fileDetails.innerHTML = '';
-        previewArea.classList.remove('visible');
-        uploadButton.disabled = false;
-        uploadButton.textContent = 'Upload to Cloudinary';
-        resetUploadResult();
-        setStatus(uploadStatus, '');
       };
 
-      const resetEntireForm = () => {
-        clearPhotoSelection();
-        productTitle.value = '';
-        productCategory.value = '';
-        productPrice.value = '';
-        productFeatured.checked = false;
-        productDescription.value = '';
-        publishSummary.classList.remove('visible');
-        setStatus(publishStatus, '');
-        window.scrollTo({top:0,behavior:'smooth'});
-      };
-
-      const showSelectedFile = (file) => {
-        resetUploadResult();
-        setStatus(uploadStatus, '');
-        setStatus(publishStatus, '');
-        publishSummary.classList.remove('visible');
-
+      const validateFile = (file) => {
         if (!file) {
-          clearPhotoSelection();
-          return;
+          return 'Choose a photo first.';
         }
 
         if (!allowedTypes.includes(file.type)) {
-          clearPhotoSelection();
-          setStatus(uploadStatus,'That file type is not supported. Choose a JPG, PNG, WEBP, or GIF.','error');
-          return;
+          return 'Choose a JPG, PNG, WEBP, or GIF image.';
         }
 
         if (file.size > maximumFileSize) {
-          clearPhotoSelection();
-          setStatus(uploadStatus,'That image is larger than 15 MB. Choose a smaller image.','error');
-          return;
+          return 'The image must be smaller than 15 MB.';
         }
 
-        selectedFile = file;
-
-        if (previewUrl) URL.revokeObjectURL(previewUrl);
-
-        previewUrl = URL.createObjectURL(file);
-        previewImage.src = previewUrl;
-        fileDetails.innerHTML = `
-          <p><strong>File:</strong> ${file.name}</p>
-          <p><strong>Size:</strong> ${formatFileSize(file.size)}</p>
-          <p><strong>Type:</strong> ${file.type}</p>
-        `;
-        previewArea.classList.add('visible');
+        return '';
       };
 
-      const uploadSelectedFile = async () => {
-        if (!selectedFile) {
-          setStatus(uploadStatus,'Choose a photo before uploading.','error');
-          return;
+      const uploadToCloudinary = async (
+        file,
+        statusElement,
+        button
+      ) => {
+        const validationMessage = validateFile(file);
+
+        if (validationMessage) {
+          throw new Error(validationMessage);
         }
 
-        uploadButton.disabled = true;
-        uploadButton.textContent = 'Uploading…';
-        setStatus(uploadStatus,'Uploading photo to Cloudinary…');
+        button.disabled = true;
+        const originalText = button.textContent;
+        button.textContent = 'Uploading…';
+
+        setStatus(
+          statusElement,
+          'Uploading photo to Cloudinary…'
+        );
 
         const formData = new FormData();
-        formData.append('file', selectedFile);
+        formData.append('file', file);
         formData.append('upload_preset', UPLOAD_PRESET);
         formData.append('folder', 'ccc-gallery');
 
         try {
           const response = await fetch(
             `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-            {method:'POST',body:formData}
+            {
+              method: 'POST',
+              body: formData
+            }
           );
 
           const result = await response.json();
 
           if (!response.ok) {
-            throw new Error(result?.error?.message || 'Cloudinary rejected the upload.');
+            throw new Error(
+              result?.error?.message ||
+              'Cloudinary rejected the upload.'
+            );
           }
 
-          cloudinaryImageUrl = result.secure_url;
-          uploadedImage.src = cloudinaryImageUrl;
-          uploadResult.classList.add('visible');
-          setStatus(uploadStatus,'Success — the photo is stored in Cloudinary. Enter the product details below.','success');
-          updatePublishButton();
-          productTitle.focus();
-        } catch (error) {
-          console.error(error);
-          setStatus(uploadStatus,`Upload failed: ${error.message}`,'error');
+          setStatus(
+            statusElement,
+            'Photo upload successful.',
+            'success'
+          );
+
+          return result.secure_url;
         } finally {
-          uploadButton.disabled = false;
-          uploadButton.textContent = 'Upload to Cloudinary';
+          button.disabled = false;
+          button.textContent = originalText;
         }
       };
 
-      const validateProduct = () => {
-        if (!cloudinaryImageUrl) return 'Upload the product photo first.';
-        if (!productTitle.value.trim()) {
-          productTitle.focus();
-          return 'Enter a product title.';
+      const resetAddPhoto = () => {
+        addSelectedFile = null;
+        addCloudinaryImageUrl = '';
+        addPhotoInput.value = '';
+
+        if (addPreviewUrl) {
+          URL.revokeObjectURL(addPreviewUrl);
+          addPreviewUrl = '';
         }
-        if (!productCategory.value) {
-          productCategory.focus();
-          return 'Choose a product category.';
+
+        addPreviewArea.classList.remove('visible');
+        addPreviewImage.src = '';
+        addFileDetails.innerHTML = '';
+
+        setStatus(addUploadStatus, '');
+        publishButton.disabled = true;
+      };
+
+      const resetAddForm = () => {
+        resetAddPhoto();
+
+        addTitle.value = '';
+        addCategory.value = '';
+        addPrice.value = '';
+        addFeatured.checked = false;
+        addDescription.value = '';
+
+        publishSuccess.classList.remove('visible');
+        setStatus(publishStatus, '');
+
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      };
+
+      const showAddFile = (file) => {
+        const validationMessage = validateFile(file);
+
+        if (validationMessage) {
+          setStatus(
+            addUploadStatus,
+            validationMessage,
+            'error'
+          );
+          return;
         }
-        return '';
+
+        resetAddPhoto();
+        addSelectedFile = file;
+
+        addPreviewUrl = URL.createObjectURL(file);
+        addPreviewImage.src = addPreviewUrl;
+
+        addFileDetails.innerHTML = `
+          <p><strong>File:</strong> ${file.name}</p>
+          <p><strong>Size:</strong> ${formatFileSize(file.size)}</p>
+          <p><strong>Type:</strong> ${file.type}</p>
+        `;
+
+        addPreviewArea.classList.add('visible');
       };
 
       const publishProduct = async () => {
-        const validationMessage = validateProduct();
+        if (!addCloudinaryImageUrl) {
+          setStatus(
+            publishStatus,
+            'Upload the product photo first.',
+            'error'
+          );
+          return;
+        }
 
-        if (validationMessage) {
-          setStatus(publishStatus,validationMessage,'error');
+        if (!addTitle.value.trim()) {
+          addTitle.focus();
+          setStatus(
+            publishStatus,
+            'Enter a product title.',
+            'error'
+          );
+          return;
+        }
+
+        if (!addCategory.value) {
+          addCategory.focus();
+          setStatus(
+            publishStatus,
+            'Choose a product category.',
+            'error'
+          );
           return;
         }
 
         publishButton.disabled = true;
         publishButton.textContent = 'Publishing…';
-        publishSummary.classList.remove('visible');
-        setStatus(publishStatus,'Publishing the product to GitHub…');
 
-        const product = {
-          title: productTitle.value.trim(),
-          category: productCategory.value,
-          price: productPrice.value.trim(),
-          description: productDescription.value.trim(),
-          featured: productFeatured.checked,
-          imageUrl: cloudinaryImageUrl
-        };
+        setStatus(
+          publishStatus,
+          'Publishing the product to GitHub…'
+        );
+
+        publishSuccess.classList.remove('visible');
 
         try {
-          const response = await fetch(PUBLISH_ENDPOINT, {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify(product)
-          });
+          const response = await fetch(
+            PUBLISH_ENDPOINT,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                title: addTitle.value.trim(),
+                category: addCategory.value,
+                price: addPrice.value.trim(),
+                description:
+                  addDescription.value.trim(),
+                featured: addFeatured.checked,
+                imageUrl: addCloudinaryImageUrl
+              })
+            }
+          );
 
-          let result;
-          try {
-            result = await response.json();
-          } catch {
-            throw new Error('The server returned an unreadable response.');
-          }
+          const result = await response.json();
 
           if (!response.ok || !result.success) {
-            throw new Error(result.message || 'The product could not be published.');
+            throw new Error(
+              result.message ||
+              'The product could not be published.'
+            );
           }
 
-          setStatus(publishStatus,result.message || 'Product published successfully.','success');
-          publishSummary.classList.add('visible');
+          setStatus(
+            publishStatus,
+            result.message ||
+            'Product published successfully.',
+            'success'
+          );
+
+          publishSuccess.classList.add('visible');
         } catch (error) {
-          console.error(error);
-          setStatus(publishStatus,`Publish failed: ${error.message}`,'error');
+          setStatus(
+            publishStatus,
+            `Publish failed: ${error.message}`,
+            'error'
+          );
         } finally {
           publishButton.disabled = false;
           publishButton.textContent = 'Publish Product';
-          updatePublishButton();
         }
       };
 
-      photoInput.addEventListener('change',()=>showSelectedFile(photoInput.files[0]));
-      dropZone.addEventListener('dragover',(event)=>{event.preventDefault();dropZone.classList.add('dragging')});
-      dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('dragging'));
-      dropZone.addEventListener('drop',(event)=>{event.preventDefault();dropZone.classList.remove('dragging');showSelectedFile(event.dataTransfer.files[0])});
-      uploadButton.addEventListener('click',uploadSelectedFile);
-      clearButton.addEventListener('click',clearPhotoSelection);
-      publishButton.addEventListener('click',publishProduct);
-      addAnotherButton.addEventListener('click',resetEntireForm);
+      const loadProducts = async () => {
+        productSelect.innerHTML =
+          '<option value="">Loading products…</option>';
+
+        productEditor.classList.remove('visible');
+        selectedProduct = null;
+
+        setStatus(
+          productListStatus,
+          'Loading published products…'
+        );
+
+        try {
+          const response = await fetch(
+            `${PRODUCTS_URL}?v=${Date.now()}`,
+            {
+              cache: 'no-store'
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error(
+              `products.json returned ${response.status}`
+            );
+          }
+
+          const result = await response.json();
+
+          if (!Array.isArray(result)) {
+            throw new Error(
+              'products.json must contain an array.'
+            );
+          }
+
+          products = result;
+
+          productSelect.innerHTML =
+            '<option value="">Choose a product</option>';
+
+          products.forEach((product) => {
+            const option =
+              document.createElement('option');
+
+            option.value = product.id;
+
+            const visibility =
+              product.published === false
+                ? ' — Hidden'
+                : '';
+
+            option.textContent =
+              `${product.title || 'Untitled product'} — ` +
+              `${categoryLabels[product.category] || product.category}` +
+              visibility;
+
+            productSelect.appendChild(option);
+          });
+
+          if (!products.length) {
+            setStatus(
+              productListStatus,
+              'No published products were found.',
+              'warning'
+            );
+          } else {
+            setStatus(
+              productListStatus,
+              `${products.length} product${
+                products.length === 1 ? '' : 's'
+              } loaded.`,
+              'success'
+            );
+          }
+        } catch (error) {
+          products = [];
+
+          productSelect.innerHTML =
+            '<option value="">Products could not be loaded</option>';
+
+          setStatus(
+            productListStatus,
+            `Load failed: ${error.message}`,
+            'error'
+          );
+        }
+      };
+
+      const resetEditPhoto = () => {
+        editSelectedFile = null;
+        replacementImageUrl = '';
+        editPhotoInput.value = '';
+
+        if (editPreviewUrl) {
+          URL.revokeObjectURL(editPreviewUrl);
+          editPreviewUrl = '';
+        }
+
+        editPreviewArea.classList.remove('visible');
+        editPreviewImage.src = '';
+        editFileDetails.innerHTML = '';
+
+        setStatus(editUploadStatus, '');
+      };
+
+      const fillEditor = (product) => {
+        selectedProduct = product;
+        resetEditPhoto();
+
+        currentProductImage.src = product.imageUrl || '';
+        currentProductImage.alt =
+          product.title || 'Current product';
+
+        currentProductTitle.textContent =
+          product.title || 'Untitled product';
+
+        currentProductCategory.textContent =
+          `Category: ${
+            categoryLabels[product.category] ||
+            product.category ||
+            'Unknown'
+          }`;
+
+        currentProductPrice.textContent =
+          `Price: ${product.price || 'Not listed'}`;
+
+        editTitle.value = product.title || '';
+        editCategory.value = product.category || 'tumblers';
+        editPrice.value = product.price || '';
+        editFeatured.checked = Boolean(product.featured);
+        editPublished.checked =
+          product.published !== false;
+
+        editDescription.value =
+          product.description || '';
+
+        editSuccess.classList.remove('visible');
+        setStatus(editStatus, '');
+
+        productEditor.classList.add('visible');
+      };
+
+      const showEditFile = (file) => {
+        const validationMessage = validateFile(file);
+
+        if (validationMessage) {
+          setStatus(
+            editUploadStatus,
+            validationMessage,
+            'error'
+          );
+          return;
+        }
+
+        resetEditPhoto();
+        editSelectedFile = file;
+
+        editPreviewUrl = URL.createObjectURL(file);
+        editPreviewImage.src = editPreviewUrl;
+
+        editFileDetails.innerHTML = `
+          <p><strong>File:</strong> ${file.name}</p>
+          <p><strong>Size:</strong> ${formatFileSize(file.size)}</p>
+          <p><strong>Type:</strong> ${file.type}</p>
+        `;
+
+        editPreviewArea.classList.add('visible');
+      };
+
+      const saveChanges = async () => {
+        if (!selectedProduct) {
+          setStatus(
+            editStatus,
+            'Choose a product first.',
+            'error'
+          );
+          return;
+        }
+
+        if (!editTitle.value.trim()) {
+          editTitle.focus();
+
+          setStatus(
+            editStatus,
+            'Enter a product title.',
+            'error'
+          );
+          return;
+        }
+
+        const imageUrl =
+          replacementImageUrl ||
+          selectedProduct.imageUrl;
+
+        saveChangesButton.disabled = true;
+        saveChangesButton.textContent = 'Saving…';
+
+        setStatus(
+          editStatus,
+          'Saving changes to GitHub…'
+        );
+
+        editSuccess.classList.remove('visible');
+
+        try {
+          const response = await fetch(
+            UPDATE_ENDPOINT,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                id: selectedProduct.id,
+                title: editTitle.value.trim(),
+                category: editCategory.value,
+                price: editPrice.value.trim(),
+                description:
+                  editDescription.value.trim(),
+                featured: editFeatured.checked,
+                published: editPublished.checked,
+                imageUrl
+              })
+            }
+          );
+
+          const result = await response.json();
+
+          if (!response.ok || !result.success) {
+            throw new Error(
+              result.message ||
+              'The product could not be updated.'
+            );
+          }
+
+          setStatus(
+            editStatus,
+            result.message ||
+            'Product updated successfully.',
+            'success'
+          );
+
+          editSuccess.classList.add('visible');
+
+          selectedProduct = result.product;
+
+          currentProductImage.src =
+            result.product.imageUrl;
+
+          currentProductTitle.textContent =
+            result.product.title;
+
+          currentProductCategory.textContent =
+            `Category: ${
+              categoryLabels[result.product.category] ||
+              result.product.category
+            }`;
+
+          currentProductPrice.textContent =
+            `Price: ${
+              result.product.price || 'Not listed'
+            }`;
+
+          resetEditPhoto();
+        } catch (error) {
+          setStatus(
+            editStatus,
+            `Update failed: ${error.message}`,
+            'error'
+          );
+        } finally {
+          saveChangesButton.disabled = false;
+          saveChangesButton.textContent = 'Save Changes';
+        }
+      };
+
+      addTabButton.addEventListener(
+        'click',
+        () => switchTab('add')
+      );
+
+      editTabButton.addEventListener(
+        'click',
+        () => switchTab('edit')
+      );
+
+      addPhotoInput.addEventListener(
+        'change',
+        () => showAddFile(addPhotoInput.files[0])
+      );
+
+      addDropZone.addEventListener(
+        'dragover',
+        (event) => {
+          event.preventDefault();
+          addDropZone.classList.add('dragging');
+        }
+      );
+
+      addDropZone.addEventListener(
+        'dragleave',
+        () => addDropZone.classList.remove('dragging')
+      );
+
+      addDropZone.addEventListener(
+        'drop',
+        (event) => {
+          event.preventDefault();
+          addDropZone.classList.remove('dragging');
+          showAddFile(event.dataTransfer.files[0]);
+        }
+      );
+
+      addUploadButton.addEventListener(
+        'click',
+        async () => {
+          try {
+            addCloudinaryImageUrl =
+              await uploadToCloudinary(
+                addSelectedFile,
+                addUploadStatus,
+                addUploadButton
+              );
+
+            publishButton.disabled = false;
+            addTitle.focus();
+          } catch (error) {
+            setStatus(
+              addUploadStatus,
+              `Upload failed: ${error.message}`,
+              'error'
+            );
+          }
+        }
+      );
+
+      addClearPhotoButton.addEventListener(
+        'click',
+        resetAddPhoto
+      );
+
+      publishButton.addEventListener(
+        'click',
+        publishProduct
+      );
+
+      addAnotherButton.addEventListener(
+        'click',
+        resetAddForm
+      );
+
+      refreshProductsButton.addEventListener(
+        'click',
+        loadProducts
+      );
+
+      productSelect.addEventListener(
+        'change',
+        () => {
+          const product = products.find(
+            (item) =>
+              String(item.id) ===
+              productSelect.value
+          );
+
+          if (!product) {
+            productEditor.classList.remove('visible');
+            selectedProduct = null;
+            return;
+          }
+
+          fillEditor(product);
+        }
+      );
+
+      editPhotoInput.addEventListener(
+        'change',
+        () => showEditFile(editPhotoInput.files[0])
+      );
+
+      editDropZone.addEventListener(
+        'dragover',
+        (event) => {
+          event.preventDefault();
+          editDropZone.classList.add('dragging');
+        }
+      );
+
+      editDropZone.addEventListener(
+        'dragleave',
+        () => editDropZone.classList.remove('dragging')
+      );
+
+      editDropZone.addEventListener(
+        'drop',
+        (event) => {
+          event.preventDefault();
+          editDropZone.classList.remove('dragging');
+          showEditFile(event.dataTransfer.files[0]);
+        }
+      );
+
+      editUploadButton.addEventListener(
+        'click',
+        async () => {
+          try {
+            replacementImageUrl =
+              await uploadToCloudinary(
+                editSelectedFile,
+                editUploadStatus,
+                editUploadButton
+              );
+
+            setStatus(
+              editUploadStatus,
+              'Replacement photo uploaded. Click Save Changes to apply it.',
+              'success'
+            );
+          } catch (error) {
+            setStatus(
+              editUploadStatus,
+              `Upload failed: ${error.message}`,
+              'error'
+            );
+          }
+        }
+      );
+
+      editClearPhotoButton.addEventListener(
+        'click',
+        resetEditPhoto
+      );
+
+      saveChangesButton.addEventListener(
+        'click',
+        saveChanges
+      );
     })();
   </script>
 </body>
