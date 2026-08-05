@@ -181,15 +181,15 @@
   },
   {
     "id": "legacy-coasters-rs-2",
-    "title": "RS 2",
+    "title": "River and Mountain",
     "category": "coasters",
-    "price": "",
-    "description": "",
+    "price": "10.00",
+    "description": "This is a slate coaster River mountain views",
     "imageUrl": "assets/Coasters/RS-2.jpg",
     "featured": false,
     "published": true,
     "createdAt": "2026-08-04T23:26:54.919Z",
-    "updatedAt": "2026-08-04T23:26:54.919Z"
+    "updatedAt": "2026-08-05T00:36:48.211Z"
   },
   {
     "id": "legacy-coasters-rs-3",
