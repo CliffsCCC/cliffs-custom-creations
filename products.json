@@ -157,15 +157,15 @@
   },
   {
     "id": "legacy-coasters-rs-1",
-    "title": "RS 1",
+    "title": "River and moon",
     "category": "coasters",
-    "price": "",
-    "description": "",
+    "price": "10.00",
+    "description": "Slate coaster",
     "imageUrl": "assets/Coasters/RS-1.jpg",
     "featured": false,
     "published": true,
     "createdAt": "2026-08-04T23:26:54.919Z",
-    "updatedAt": "2026-08-04T23:26:54.919Z"
+    "updatedAt": "2026-08-04T23:54:22.670Z"
   },
   {
     "id": "legacy-coasters-rs-2",
