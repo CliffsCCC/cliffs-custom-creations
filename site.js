@@ -9,142 +9,15 @@
     });
   }
 
-  /*
-   * Existing gallery photos.
-   * Folder names must match GitHub exactly because Netlify is case-sensitive.
-   */
-  const GALLERIES = {
-    coasters: {
-      label: 'Coasters',
-      folder: 'assets/Coasters/',
-      files: [
-        '72-TA.jpg',
-        '89-TA.jpg',
-        'Faith-1.jpg',
-        'Faith-2.jpg',
-        'FHS-1.jpg',
-        'Freedome-set.jpg',
-        'LM-1.jpg',
-        'LM-2.jpg',
-        'LM-3.jpg',
-        'LM-4.jpg',
-        'riverside-set.jpg',
-        'RS-1.jpg',
-        'RS-2.jpg',
-        'RS-3.jpg',
-        'RS-4.jpg',
-        'WF-1.jpg',
-        'WF-2.jpg',
-        'WF-3.jpg',
-        'WF-4.jpg',
-        'WF-5.jpg',
-        'xmas-set-1.jpg'
-      ]
-    },
-
-    keychains: {
-      label: 'Keychains',
-      folder: 'assets/keychains/',
-      files: [
-        'faith-1.jpg',
-        'faith-2.jpg',
-        'favorvers-1.jpg',
-        'favorvers-2.jpg',
-        'hisandhers-1.jpg',
-        'iloveyou-1.jpg',
-        'keychain-1.jpg',
-        'lastnames-1.jpg',
-        'sheisstrong-1.jpg',
-        'teamwork-1.jpg'
-      ]
-    },
-
-    tumblers: {
-      label: 'Tumblers',
-      folder: 'assets/Tumblers/',
-      files: [
-        'getclean.png',
-        'tumbler-1.png',
-        'tumbler-2.png',
-        'egale-1.jpg',
-        'godisright.png',
-        'grace.png',
-        'happybirthday-1.jpg',
-        'iamnotperfict-1.jpg',
-        'jesusistheway.png',
-        'love-1.jpg',
-        'love-2.jpg',
-        'skatebording-1.jpg',
-        'texastech-1.jpg',
-        'tumbler-3.jpg',
-        'werstling-1.jpg',
-        'wethepeople-1.jpg'
-      ]
-    },
-
-    wallets: {
-      label: 'Wallets',
-      folder: 'assets/wallets/',
-      files: [
-        'acualhandwriting.jpg',
-        'daughterandfather-1.jpg'
-      ]
-    },
-
-    woodworks: {
-      label: 'Woodworks',
-      folder: 'assets/woodworks/',
-      files: [
-        'baseballgame-1.jpg',
-        'baseballgame-2.jpg',
-        'nameplates.jpg',
-        'pet-1.jpg',
-        'pet-2.jpg',
-        'pet-3.jpg',
-        'pet-4.jpg',
-        'pet-5.jpg',
-        'pet-6.jpg',
-        'pet-7.jpg',
-        'pet-8.jpg',
-        'pet-9.jpg',
-        'pet-10.jpg',
-        'pet-11.jpg',
-        'woodenplaques-1.jpg',
-        'woodenplaques-2.jpg',
-        'woodenplaques-3.jpg',
-        'xmas-1.jpg',
-        'xmas-2.jpg',
-        'xmas-3.jpg',
-        'xmas-4.jpg',
-        'xmas-5.jpg'
-      ]
-    }
+  const CATEGORY_LABELS = {
+    coasters: 'Coasters',
+    keychains: 'Keychains',
+    tumblers: 'Tumblers',
+    wallets: 'Wallets',
+    woodworks: 'Woodworks'
   };
 
-  const prettyName = (file) => {
-    return file
-      .replace(/\.[^.]+$/, '')
-      .replace(/[-_]+/g, ' ')
-      .replace(/\b\w/g, (letter) => letter.toUpperCase());
-  };
-
-  const legacyGalleryItems = Object.entries(GALLERIES).flatMap(
-    ([category, gallery]) => {
-      return gallery.files.map((file) => ({
-        id: `legacy-${category}-${file}`,
-        category,
-        categoryLabel: gallery.label,
-        src: gallery.folder + file,
-        title: prettyName(file),
-        price: '',
-        description: '',
-        featured: false,
-        isDynamic: false
-      }));
-    }
-  );
-
-  const normalizePublishedProduct = (product) => {
+  const normalizeProduct = (product) => {
     if (!product || typeof product !== 'object') {
       return null;
     }
@@ -154,35 +27,40 @@
         ? product.category.trim().toLowerCase()
         : '';
 
-    if (!GALLERIES[category]) {
-      return null;
-    }
-
     const title =
       typeof product.title === 'string'
         ? product.title.trim()
         : '';
 
-    const src =
+    const imageUrl =
       typeof product.imageUrl === 'string'
         ? product.imageUrl.trim()
         : '';
 
-    if (
-      !title ||
-      !src.startsWith('https://res.cloudinary.com/')
-    ) {
+    if (!CATEGORY_LABELS[category]) {
+      return null;
+    }
+
+    if (!title || !imageUrl) {
+      return null;
+    }
+
+    const validCloudinaryImage =
+      imageUrl.startsWith('https://res.cloudinary.com/');
+
+    const validLocalImage =
+      imageUrl.startsWith('assets/') &&
+      !imageUrl.includes('..');
+
+    if (!validCloudinaryImage && !validLocalImage) {
       return null;
     }
 
     return {
-      id:
-        product.id ||
-        `product-${Date.now()}-${Math.random()}`,
-
+      id: String(product.id || ''),
       category,
-      categoryLabel: GALLERIES[category].label,
-      src,
+      categoryLabel: CATEGORY_LABELS[category],
+      src: imageUrl,
       title,
 
       price:
@@ -196,11 +74,11 @@
           : '',
 
       featured: Boolean(product.featured),
-      isDynamic: true
+      published: product.published !== false
     };
   };
 
-  const loadPublishedProducts = async () => {
+  const loadProducts = async () => {
     try {
       const response = await fetch(
         `products.json?v=${Date.now()}`,
@@ -224,12 +102,19 @@
       }
 
       return products
-        .filter((product) => product.published !== false)
-        .map(normalizePublishedProduct)
-        .filter(Boolean);
+        .map(normalizeProduct)
+        .filter(Boolean)
+        .filter((product) => product.published)
+        .sort((a, b) => {
+          if (a.featured === b.featured) {
+            return 0;
+          }
+
+          return a.featured ? -1 : 1;
+        });
     } catch (error) {
       console.error(
-        'Could not load published products:',
+        'Could not load gallery products:',
         error
       );
 
@@ -237,54 +122,31 @@
     }
   };
 
-  const publishedProducts =
-    await loadPublishedProducts();
+  const allGalleryItems = await loadProducts();
 
-  /*
-   * New products are placed first.
-   */
-  const allGalleryItems = [
-    ...publishedProducts,
-    ...legacyGalleryItems
-  ];
-
-  /*
-   * Lightbox
-   */
+  // Lightbox
   const lightbox = document.createElement('div');
   lightbox.className = 'lightbox';
 
-  const lightboxInner =
-    document.createElement('div');
-
+  const lightboxInner = document.createElement('div');
   lightboxInner.className = 'lightbox-inner';
 
-  const lightboxBar =
-    document.createElement('div');
-
+  const lightboxBar = document.createElement('div');
   lightboxBar.className = 'lightbox-bar';
 
-  const lightboxTitle =
-    document.createElement('div');
-
+  const lightboxTitle = document.createElement('div');
   lightboxTitle.className = 'lightbox-title';
 
-  const lightboxClose =
-    document.createElement('button');
-
+  const lightboxClose = document.createElement('button');
   lightboxClose.className = 'lightbox-close';
   lightboxClose.type = 'button';
-
   lightboxClose.setAttribute(
     'aria-label',
     'Close image'
   );
-
   lightboxClose.textContent = 'Close ✕';
 
-  const lightboxImage =
-    document.createElement('img');
-
+  const lightboxImage = document.createElement('img');
   lightboxImage.className = 'lightbox-img';
   lightboxImage.alt = '';
 
@@ -307,14 +169,14 @@
     lightboxImage.src = item.src;
     lightboxImage.alt = item.title;
 
-    const details = [item.title];
+    const titleParts = [item.title];
 
     if (item.price) {
-      details.push(item.price);
+      titleParts.push(item.price);
     }
 
     lightboxTitle.textContent =
-      details.join(' — ');
+      titleParts.join(' — ');
 
     document.body.style.overflow = 'hidden';
   };
@@ -353,8 +215,7 @@
   );
 
   const createGalleryCard = (item) => {
-    const card =
-      document.createElement('button');
+    const card = document.createElement('button');
 
     card.className = 'gallery-card';
     card.type = 'button';
@@ -364,8 +225,7 @@
       `View ${item.title} in ${item.categoryLabel}`
     );
 
-    const image =
-      document.createElement('img');
+    const image = document.createElement('img');
 
     image.src = item.src;
     image.alt = item.title;
@@ -374,25 +234,22 @@
     image.addEventListener(
       'error',
       () => {
+        console.error(
+          `Image could not load: ${item.src}`
+        );
+
         card.remove();
       }
     );
 
-    const caption =
-      document.createElement('div');
-
+    const caption = document.createElement('div');
     caption.className = 'gallery-cap';
 
-    const title =
-      document.createElement('span');
-
+    const title = document.createElement('span');
     title.textContent = item.title;
 
-    const category =
-      document.createElement('small');
-
-    category.textContent =
-      item.categoryLabel;
+    const category = document.createElement('small');
+    category.textContent = item.categoryLabel;
 
     caption.append(
       title,
@@ -400,8 +257,7 @@
     );
 
     if (item.price) {
-      const price =
-        document.createElement('strong');
+      const price = document.createElement('strong');
 
       price.className = 'gallery-price';
       price.textContent = item.price;
@@ -410,8 +266,7 @@
     }
 
     if (item.description) {
-      const description =
-        document.createElement('p');
+      const description = document.createElement('p');
 
       description.className =
         'gallery-description';
@@ -440,27 +295,28 @@
   const renderGallery = (
     items,
     grid,
-    countEl
+    countElement
   ) => {
     grid.innerHTML = '';
 
-    if (countEl) {
-      countEl.textContent =
+    if (countElement) {
+      countElement.textContent =
         `${items.length} item${
           items.length === 1 ? '' : 's'
         }`;
     }
 
     if (!items.length) {
-      const empty =
+      const emptyMessage =
         document.createElement('p');
 
-      empty.className = 'gallery-empty';
+      emptyMessage.className =
+        'gallery-empty';
 
-      empty.textContent =
+      emptyMessage.textContent =
         'No gallery items were found in this category.';
 
-      grid.appendChild(empty);
+      grid.appendChild(emptyMessage);
       return;
     }
 
@@ -485,14 +341,12 @@
   const pageCount =
     document.getElementById('page-count');
 
-  /*
-   * Existing separate category pages
-   */
+  // Separate category pages
   if (
     currentCategory &&
     currentCategory !== 'all' &&
     galleryGrid &&
-    GALLERIES[currentCategory]
+    CATEGORY_LABELS[currentCategory]
   ) {
     const categoryItems =
       allGalleryItems.filter(
@@ -507,9 +361,7 @@
     );
   }
 
-  /*
-   * Unified gallery page
-   */
+  // Unified gallery page
   const filterContainer =
     document.getElementById(
       'gallery-filters'
@@ -526,21 +378,19 @@
         label: 'All'
       },
 
-      ...Object.entries(GALLERIES).map(
-        ([value, gallery]) => ({
-          value,
-          label: gallery.label
-        })
-      )
+      ...Object.entries(
+        CATEGORY_LABELS
+      ).map(([value, label]) => ({
+        value,
+        label
+      }))
     ];
 
     let activeCategory = 'all';
 
     const updateFilterButtons = () => {
       filterContainer
-        .querySelectorAll(
-          '.gallery-filter'
-        )
+        .querySelectorAll('.gallery-filter')
         .forEach((button) => {
           const isActive =
             button.dataset.category ===
@@ -560,7 +410,7 @@
 
     const displayCategory = (category) => {
       activeCategory =
-        GALLERIES[category]
+        CATEGORY_LABELS[category]
           ? category
           : 'all';
 
@@ -581,13 +431,12 @@
 
       updateFilterButtons();
 
-      const url =
-        new URL(window.location.href);
+      const url = new URL(
+        window.location.href
+      );
 
       if (activeCategory === 'all') {
-        url.searchParams.delete(
-          'category'
-        );
+        url.searchParams.delete('category');
       } else {
         url.searchParams.set(
           'category',
@@ -607,8 +456,7 @@
         document.createElement('button');
 
       button.type = 'button';
-      button.className =
-        'gallery-filter';
+      button.className = 'gallery-filter';
 
       button.dataset.category =
         option.value;
@@ -624,15 +472,11 @@
       button.addEventListener(
         'click',
         () => {
-          displayCategory(
-            option.value
-          );
+          displayCategory(option.value);
         }
       );
 
-      filterContainer.appendChild(
-        button
-      );
+      filterContainer.appendChild(button);
     });
 
     const requestedCategory =
